@@ -96,7 +96,8 @@ define([
                     return -Math.pow(d.radius, 2.0) / 80000; 
                 })
                 .nodes(nodes)
-                .friction(0.5)
+                //.theta(0.8)
+                .friction(0.2)
                 .size([this.width, this.height]);
 
             force.start();
@@ -142,6 +143,7 @@ define([
                 n = nodes.length;
 
                 while (++i < n) {
+                   //nodes[i].weight = 100;
                     q.visit(collide(nodes[i]));
                 }
 
