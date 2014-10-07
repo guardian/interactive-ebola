@@ -58,17 +58,23 @@ define([
 
         fillData: function(svg,projection){
             var countryData = EbolaData.getSheet('cases by date');
+            var allDays = _.uniq(_.pluck(countryData,'date'));
+            var currentDay = allDays[this.date];
+            var dataByDay = _.groupBy(countryData,function(i){
+                return i.date;
+            })
+            var currentData = dataByDay[currentDay];
 
-            var nodes = d3.range(countryData.length)
+            var nodes = d3.range(currentData.length)
                 .map(function(d, i) { 
                     return {
-                        radius: countryData[i].cases/20, 
-                        lat: countryData[i].lat, 
-                        lon: countryData[i].lon, 
-                        x: projection([countryData[i].lon, countryData[i].lat])[0], 
-                        y: projection([countryData[i].lon, countryData[i].lat])[1], 
-                        initX: projection([countryData[i].lon, countryData[i].lat])[0], 
-                        initY: projection([countryData[i].lon, countryData[i].lat])[1]
+                        radius: currentData[i].cases/20, 
+                        lat: currentData[i].lat, 
+                        lon: currentData[i].lon, 
+                        x: projection([currentData[i].lon, currentData[i].lat])[0], 
+                        y: projection([currentData[i].lon, currentData[i].lat])[1], 
+                        initX: projection([currentData[i].lon, currentData[i].lat])[0], 
+                        initY: projection([currentData[i].lon, currentData[i].lat])[1]
                     };
                 }),
              
@@ -89,6 +95,17 @@ define([
                     return "#005689"; 
                 });
 
+            svg.selectAll("circle.line-anchor")
+                .data(nodes)
+                .enter().append("svg:circle")
+                .attr("class", "line-anchor")
+                .attr("r", function(d) { return 2.2; })
+                .attr("cx", function(d) {
+                    return d.initX;
+                })
+                .attr("cy", function(d) {
+                    return d.initY;
+                })
 
             var force = d3.layout.force()
                 .gravity(0)
@@ -96,10 +113,11 @@ define([
                     return -Math.pow(d.radius, 2.0) / 80000; 
                 })
                 .nodes(nodes)
-                .friction(0.5)
+                .friction(0.3)
                 .size([this.width, this.height]);
 
             force.start();
+
 
             var link = svg.selectAll("line.link")
                 .data(nodes);
@@ -123,18 +141,6 @@ define([
                     return d.y; 
                 })
             link.exit().remove();
-
-            svg.selectAll("circle.line-anchor")
-                .data(nodes)
-                .enter().append("svg:circle")
-                .attr("class", "line-anchor")
-                .attr("r", function(d) { return 2.2; })
-                .attr("cx", function(d) {
-                    return d.initX;
-                })
-                .attr("cy", function(d) {
-                    return d.initY;
-                })
 
             force.on("tick", function(e) {
                 var q = d3.geom.quadtree(nodes),
@@ -235,6 +241,9 @@ define([
                 || y2 < ny1;
                 };
             }
+        },
+        updateMap: function(){
+
         },
 
         render: function() {
