@@ -53,7 +53,8 @@ module.exports = function(grunt) {
               'json'            : '../libs/json',
               'd3'              : '../libs/d3',
               'iframeMessenger' : '../libs/iframeMessenger',
-              'topojson'        : '../libs/topojson'
+              'topojson'        : '../libs/topojson',
+              'numeral'         : '../libs/numeral'
           },
           optimize: 'none',
           inlineText: true,

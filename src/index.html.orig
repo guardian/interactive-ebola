@@ -4,8 +4,11 @@
         <meta http-equiv="X-UA-Compatible" content="IE=Edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Guardian interactive - Ebola spread</title>
-        <link type="text/css" rel="stylesheet" href="http://assets.guim.co.uk/stylesheets/38417b13b505b283b5ea4c2e85526d0b/webfonts.css">
+<<<<<<< HEAD
         <link type="text/css" rel="stylesheet" href="@@assetpath/assets/css/main.css">
+=======
+        <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+>>>>>>> e2f0eec97e0c585d0794cdd9e74ee36217ebe8a7
     </head>
     <body>
 

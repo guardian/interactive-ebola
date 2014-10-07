@@ -1,11 +1,13 @@
 define([
     'backbone',
     'underscore',
+    'numeral',
     'data/ebolaData',
     'text!templates/tableTemplate.html'
 ], function(
     Backbone,
     _,
+    numeral,
     EbolaData,
     templateHTML
 ) {
@@ -23,7 +25,7 @@ define([
 
         // TODO: Use border width
         calcScale: function(data) {
-            var maxDiameter = 500;
+            var maxDiameter = 350;
             var deathDiameter;
             var casesDiamerter;
 
@@ -44,14 +46,33 @@ define([
                 deathDiameter = maxDiameter;
             }
 
-            console.log(casesDiamerter, deathDiameter, totalCases, totalDeaths);
-
+            var maxRow = _.max(data, function(row) { return row.cases; });
+            var maxDiamter = Math.sqrt(maxRow.cases / Math.PI) * 2;
 
             _.forEach(data, function(row) {
+                // Tidy up data
+                if (row.year === '2001/2002') {
+                    row.year = '2001/02';
+                }
+
+                //var diameter = (row.cases / maxRow.cases) * maxDiameter;
+                var diameter = Math.sqrt(row.cases / Math.PI) * 2;
+                var pixelDiameter = (diameter / maxDiamter) * maxDiameter;
+
+                var deathDiameter = Math.sqrt(row.deaths / Math.PI) * 2;
+                var pixelDeathSize = pixelDiameter - ((deathDiameter / maxDiamter) * maxDiameter);
+
+                /*
                 row.casesPercentage = (row.cases / totalCases) * 100;
                 row.deathsPercentage = (row.deaths / totalDeaths) * 100;
-                row.casesSize = Math.ceil(casesDiamerter / 100 * row.casesPercentage);
-                row.deathsSize = Math.ceil(deathDiameter / 100 * row.deathsPercentage);
+                */
+
+                row.casesSize = Math.ceil(pixelDiameter);
+                row.deathsSize = pixelDeathSize / 2;
+
+                // Format numbers
+                row.cases = numeral(row.cases).format('0,0');
+                row.deaths = numeral(row.cases).format('0,0');
             });
         },
 
@@ -67,4 +88,5 @@ define([
         }
     });
 });
+
 
