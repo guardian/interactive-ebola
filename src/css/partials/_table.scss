@@ -1,3 +1,7 @@
+.ebola-table-wrapper {
+    color: $guDarkGrey;
+}
+
 .ebola-table {
     border-collapse: collapse;
 
@@ -14,7 +18,51 @@
     }
 
     td {
-        padding: 5px 0;
+        padding: 10px 0;
+        vertical-align: top;
+        font-family: 'Guardian Egyptian Web';
+        font-weight: 400;
+    }
+
+    td.ebola-year {
+        width: 5em;
+    }
+
+    td.ebola-year,
+    td.ebola-cases,
+    td.ebola-deaths {
+        font-weight: 700;
+    }
+
+    td.ebola-deaths,
+    td.ebola-cases {
+        vertical-align: middle;
+        text-align: right;
+    }
+
+    tr:last-child td.ebola-deaths,
+    tr:last-child td.ebola-cases {
+        vertical-align: top;
+    }
+
+    tr:last-child .ebola-size-viz {
+        margin: auto -30px;
+    }
+
+    td.ebola-cases {
+        color: $guLightBlue;
+    }
+
+    td.ebola-deaths {
+        color: $guDarkBlue;
+    }
+
+    td.ebola-countries {
+        font-family: 'Guardian Text Sans Web';
+    }
+
+    td.ebola-size {
+        vertical-align: middle;
     }
 }
 
@@ -26,20 +74,48 @@
     border-radius: 50%;
     margin: auto auto;
     position: relative;
-}
-
-.ebola-deaths-viz {
     background-color: #005789;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    position: absolute;
-}
-
-.ebola-cases-viz {
-    background-color: #4DC6DD;
+    border-color: #4DC6DD;
+    border-style: solid;
+    box-sizing: border-box;
 }
 
 .ebola-countries {
-    width: 30%;
+    max-width: 200px;
+}
+
+
+.table-key {
+    position: relative;
+}
+
+.key {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.key:before {
+    content: ".";
+    text-indent: -100px;
+    overflow: hidden;
+    border-radius: 50%;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-right: 0.4em;
+    vertical-align: text-top;
+}
+
+.key-cases {
+    margin-left: 15px;
+    border-left: 1px solid $guLightGrey;
+    padding-left: 24px;
+}
+
+.key-cases:before {
+    background-color: $guLightBlue;
+}
+
+.key-deaths:before {
+    background-color: $guDarkBlue;
 }

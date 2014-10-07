@@ -1,43 +1,43 @@
-<h1>Ebola outbreak</h1>
+<div class="ebola-table-wrapper">
+    <h1>Ebola outbreak</h1>
 
-<p class="key">Key * * *</p>
+    <p class="table-key">
+        Key
+        <span class="key key-cases">Cases</span>
+        <span class="key key-deaths">Deaths</span>
+    </p>
 
-<table class="ebola-table">
-    <thead>
-        <tr>
-            <th>Year</th>
-            <th>Country</th>
-            <th>Size</th>
-            <th>Cases</th>
-            <th>Deaths</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% if (typeof data === 'undefined') { %>
-            <p>Loading...</p>
-        <% } else { _.each(data, function(row) { %>
+    <table class="ebola-table">
+        <thead>
             <tr>
-                <td class="ebola-year"> <%= row.year %> </td>
-                <td class="ebola-countries"> <%= row.countries %> </td>
-                <td class="ebola-size">
-
-
-                    <div
-                        class="ebola-size-viz ebola-cases-viz"
-                        style="width: <%= row.casesSize %>px; height: <%= row.casesSize %>px;">
-
-                            <div
-                                class="ebola-size-viz ebola-deaths-viz"
-                                style="width: <%= row.deathsSize %>px; height: <%= row.deathsSize %>px;">
-                            </div>
-                    </div>
-
-                </td>
-                <td class="ebola-cases"> <%= row.cases %> </td>
-                <td class="ebola-deaths"> <%= row.deaths %> </td>
+                <th>Year</th>
+                <th>Country</th>
+                <th>Size</th>
+                <th>Cases</th>
+                <th>Deaths</th>
             </tr>
-        <% }); } %>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            <% if (typeof data === 'undefined') { %>
+                <p>Loading...</p>
+            <% } else { _.each(data, function(row) { %>
+                <tr>
+                    <td class="ebola-year"> <%= row.year %> </td>
+                    <td class="ebola-countries"> <%= row.countries %> </td>
+                    <td class="ebola-size">
 
-<p class="source">SOURCE: WHO</p>
+                        <div
+                            class="ebola-size-viz ebola-cases-viz"
+                            style="width: <%= row.casesSize %>px; height: <%= row.casesSize %>px; border-width: <%= row.deathsSize %>px;">
+                        </div>
+
+                    </td>
+                    <td class="ebola-cases"> <%= row.cases %> </td>
+                    <td class="ebola-deaths"> <%= row.deaths %> </td>
+                </tr>
+            <% }); } %>
+        </tbody>
+    </table>
+
+    <p class="source">SOURCE: WHO</p>
+</div>
