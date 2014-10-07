@@ -173,7 +173,10 @@ module.exports = function(grunt) {
                   replacement: 'http://localhost:' + pkg.config.port + '/'
                 }]
             },
-            files: [{src: ['build/boot.js'], dest: 'build/boot.js' }]
+            files: [
+              {src: ['build/boot.js'], dest: 'build/boot.js' },
+              {src: ['build/index.html'], dest: 'build/index.html' }
+            ]
         }
 
     },
