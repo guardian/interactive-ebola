@@ -1,5 +1,18 @@
 .ebola-table-wrapper {
     color: $guDarkGrey;
+    font-family: 'Guardian Egyptian Web';
+    font-size: 16px;
+    line-height: 1.4em;
+
+    h1 {
+        color: $guDarkBlue;
+        border-top: 6px solid $guLightBlue;
+        width: 108px;
+        overflow: visible;
+        display: inline-block;
+        white-space: nowrap;
+        padding-top: 14px;
+    }
 }
 
 .ebola-table {
@@ -20,12 +33,11 @@
     td {
         padding: 10px 0;
         vertical-align: top;
-        font-family: 'Guardian Egyptian Web';
         font-weight: 400;
     }
 
     td.ebola-year {
-        width: 5em;
+        width: 4.5em;
     }
 
     td.ebola-year,
@@ -40,17 +52,23 @@
         text-align: right;
     }
 
+    tr:first-child td.ebola-year,
+    tr:first-child td.ebola-countries {
+        vertical-align: middle;
+    }
+
     tr:last-child td.ebola-deaths,
     tr:last-child td.ebola-cases {
         vertical-align: top;
     }
 
     tr:last-child .ebola-size-viz {
-        margin: auto -30px;
+        margin: auto -10px;
     }
 
     td.ebola-cases {
         color: $guLightBlue;
+        padding-right: 10px;
     }
 
     td.ebola-deaths {
@@ -86,7 +104,7 @@
 
 
 .table-key {
-    position: relative;
+    margin: 0;
 }
 
 .key {
@@ -118,4 +136,12 @@
 
 .key-deaths:before {
     background-color: $guDarkBlue;
+}
+
+.source {
+    font-family: 'Guardian Text Sans Web';
+    text-transform: 'uppercase';
+    border-top: 1px solid $guLightGrey;
+    padding-top: 3px;
+    font-size: 12px;
 }
