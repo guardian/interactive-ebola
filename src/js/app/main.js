@@ -5,7 +5,8 @@ define([
     'views/tableView',
     'views/mapView',
     'routes',
-    'iframeMessenger'
+    'iframeMessenger',
+    'jQuery.XDomainRequest'
 ], function(
     Backbone,
     $,
