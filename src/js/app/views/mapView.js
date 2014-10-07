@@ -4,8 +4,17 @@ define([
     'underscore',
     'd3',
     'topojson',
+    'data/ebolaData',
     'text!templates/mapTemplate.html'
-], function($,Backbone, _,d3, topojson, templateHTML) {
+], function(
+    $,
+    Backbone,
+    _,
+    d3,
+    topojson,
+    EbolaData,
+    templateHTML
+) {
     'use strict';
 
     return Backbone.View.extend({
@@ -24,6 +33,7 @@ define([
 
         initialize: function(options) {
             this.date = options.date;
+            Backbone.on('fetch:success', this.render, this);
         },
 
         buildMap : function(world){
@@ -50,12 +60,16 @@ define([
         },
 
         render: function() {
+            var data = EbolaData.getSheets();
+            
             this.$el.html(this.template());
+            
             _this = this;
             d3.json("assets/js/world.json", function(error, world) {
               if (error) return console.error(error);
               _this.buildMap(world);
             });
+            
             return this;
         }
     });

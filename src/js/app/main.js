@@ -1,6 +1,7 @@
 define([
     'backbone',
     'jquery',
+    'data/ebolaData',
     'views/tableView',
     'views/mapView',
     'routes',
@@ -8,6 +9,7 @@ define([
 ], function(
     Backbone,
     $,
+    EbolaData,
     TableView,
     MapView,
     routes,
@@ -36,6 +38,9 @@ define([
         routes.on('route:tableView', startTableView);
         routes.on('route:mapView', startMapView);
         Backbone.history.start();
+
+        // Fetch data
+        EbolaData.fetch();
 
         // Enable iframe resizing on the GU site
         iframeMessenger.enableAutoResize();
