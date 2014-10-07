@@ -16,7 +16,9 @@
 @import "bower_components/guss-forms/_forms";
 
 $c-brand: guss-color(guardian-brand);
-
+body{
+	margin:0;
+}
 .guInteractive {
     @import 'reset';
     @import 'game';
@@ -27,4 +29,16 @@ $c-brand: guss-color(guardian-brand);
     	color: $c-brand;
     	@include fs-bodyCopy(3);
     }
+}
+
+.element-interactive{
+	margin:0;
+
+	#map{
+		path{
+			fill:#ccc;
+			stroke-width:0.5;
+			stroke:#fff;
+		}
+	}
 }

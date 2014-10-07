@@ -52,7 +52,8 @@ module.exports = function(grunt) {
               'text'            : '../libs/text',
               'json'            : '../libs/json',
               'd3'              : '../libs/d3',
-              'iframeMessenger' : '../libs/iframeMessenger'
+              'iframeMessenger' : '../libs/iframeMessenger',
+              'topojson'        : '../libs/topojson'
           },
           optimize: 'none',
           inlineText: true,
@@ -130,6 +131,7 @@ module.exports = function(grunt) {
           { src: 'src/index.html', dest: 'build/index.html' },
           { src: 'src/ngw.html', dest: 'build/ngw.html' },
           { src: 'src/js/libs/curl.js', dest: 'build/assets/js/curl.js' },
+          { src: 'src/js/app/data/world.json', dest: 'build/assets/js/world.json' },
           { src: 'src/boot.js', dest: 'build/boot.js' },
           { cwd: 'src/', src: 'images/**', dest: 'build/assets/', expand: true}
         ]
