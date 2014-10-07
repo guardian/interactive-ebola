@@ -1,5 +1,5 @@
 /**
- * Project: Project name
+ * Project: Project name 
  * File:    Main SCSS
  */
 
@@ -16,8 +16,21 @@
 @import "bower_components/guss-forms/_forms";
 
 $c-brand: guss-color(guardian-brand);
-
+body{
+	margin:0;
+}
 
 @import 'reset';
 @import 'table';
 
+.element-interactive{
+	margin:0;
+
+	#map{
+		path{
+			fill:#ccc;
+			stroke-width:0.5;
+			stroke:#fff;
+		}
+	}
+}
