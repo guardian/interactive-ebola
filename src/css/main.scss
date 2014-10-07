@@ -1,0 +1,30 @@
+/**
+ * Project: Project name 
+ * File:    Main SCSS
+ */
+
+@import "bower_components/sass-mq/_mq";
+@import "bower_components/guss-css3/_css3";
+@import "bower_components/guss-colours/_colours";
+@import "bower_components/guss-colours/_helpers";
+@import "bower_components/guss-rem/_rem";
+@import "bower_components/guss-grid-system/_grid-system";
+@import "bower_components/guss-layout/_row";
+@import "bower_components/guss-layout/_columns";
+@import "bower_components/guss-typography/_helpers";
+@import "bower_components/guss-typography/_font-scale";
+@import "bower_components/guss-forms/_forms";
+
+$c-brand: guss-color(guardian-brand);
+
+.guInteractive {
+    @import 'reset';
+    @import 'game';
+
+    width: gs-span(3);
+
+    p {
+    	color: $c-brand;
+    	@include fs-bodyCopy(3);
+    }
+}
