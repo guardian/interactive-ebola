@@ -24,11 +24,6 @@ define([
         template: _.template(templateHTML),
         
         events: {
-            'click .clickContainer': 'testz'
-        },
-
-        testz: function(e){
-            console.log('hey');
         },
 
         initialize: function(options) {
@@ -57,11 +52,20 @@ define([
                 .enter().append("path")
                 .attr("class",function(d){ return "subunit " + d.id})
                 .attr("d",path)
+
+            this.fillData();
+        },
+
+        fillData: function(){
+            var data = EbolaData.getSheet('cases by date');
+            _.each(data,function(i,j){
+                console.log(j);
+                var offset = $('#map .' + i.country).offset();
+                console.log(offset);
+            })
         },
 
         render: function() {
-            var data = EbolaData.getSheets();
-            
             this.$el.html(this.template());
             
             _this = this;
