@@ -22,8 +22,9 @@ define([
         },
 
         render: function() {
-            console.log(EbolaData.getSheets());
-            this.$el.html(this.template());
+            var data = EbolaData.getSheet('Historic cases');
+            console.log(data);
+            this.$el.html(this.template({ data: data }));
             return this;
         }
     });

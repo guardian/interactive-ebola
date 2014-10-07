@@ -24,13 +24,22 @@ define([
         return sheets;
     }
 
+    function getSheet(sheetName) {
+        if (!sheets || !sheetName || !sheets.hasOwnProperty(sheetName)) {
+            return false;
+        }
+
+        return sheets[sheetName];
+    }
+
     function fetch() {
         $.getJSON(URL, success, error);
     }
 
     return {
         fetch: fetch,
-        getSheets: getSheets
+        getSheets: getSheets,
+        getSheet: getSheet
     };
 });
 

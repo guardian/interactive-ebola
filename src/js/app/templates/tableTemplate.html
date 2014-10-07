@@ -1,1 +1,30 @@
-I'M A TABLE =D
+<h1>Ebola outbreak</h1>
+
+<p class="key">Key * * *</p>
+
+<table class="ebola-table">
+    <thead>
+        <tr>
+            <th>Year</th>
+            <th>Country</th>
+            <th>Size</th>
+            <th>Cases</th>
+            <th>Deaths</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% if (typeof data === 'undefined') { %>
+            <p>Loading...</p>
+        <% } else { _.each(data, function(row) { %>
+            <tr>
+                <td class="ebola-year"> <%= row.year %> </td>
+                <td class="ebola-countries"> <%= row.countries %> </td>
+                <td class="ebola-size"> (O) </td>
+                <td class="ebola-cases"> <%= row.cases %> </td>
+                <td class="ebola-deaths"> <%= row.deaths %> </td>
+            </tr>
+        <% }); } %>
+    </tbody>
+</table>
+
+<p class="source">SOURCE: WHO</p>
