@@ -35,5 +35,15 @@ body{
 		path:hover{
 			fill:#aaa;
 		}
+		circle {
+		  fill-opacity: 0.5;
+		}
+
+		line.link {
+		  fill: none;
+		  stroke: #333;
+		  stroke-width: 1.5px;
+		}
 	}
+
 }
