@@ -31,12 +31,14 @@ define([
 
         getVizWidth: function() {
             var windowWidth = $(window).width();
+            console.log(windowWidth);
             return windowWidth * 0.333;
         },
 
         // TODO: Use border width
         calcScale: function(data) {
             var maxDiameter = this.getVizWidth();
+            console.log(maxDiameter);
             var maxRow = _.max(data, function(row) { return row.cases; });
             var maxDiamter = Math.sqrt(maxRow.cases / Math.PI) * 2;
 
@@ -55,8 +57,8 @@ define([
                 row.deathsSize = pixelDeathSize / 2;
 
                 // Format numbers
-                row.cases = numeral(row.cases).format('0,0');
-                row.deaths = numeral(row.deaths).format('0,0');
+                row.casesFormated = numeral(row.cases).format('0,0');
+                row.deathsFormated = numeral(row.deaths).format('0,0');
             });
         },
 
