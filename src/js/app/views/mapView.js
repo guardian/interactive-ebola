@@ -74,9 +74,10 @@ define([
              
             color = d3.scale.category10();
 
-            var circle = svg.selectAll("circle")
+            var circle = svg.selectAll("circle.node")
                 .data(nodes)
                 .enter().append("svg:circle")
+                .attr("class", "node")
                 .attr("r", function(d) { return d.radius; })
                 .attr("cx", function(d) {
                     return projection([d.lon, d.lat])[0];
@@ -123,6 +124,18 @@ define([
                 })
             link.exit().remove();
 
+            svg.selectAll("circle.line-anchor")
+                .data(nodes)
+                .enter().append("svg:circle")
+                .attr("class", "line-anchor")
+                .attr("r", function(d) { return 2.2; })
+                .attr("cx", function(d) {
+                    return d.initX;
+                })
+                .attr("cy", function(d) {
+                    return d.initY;
+                })
+
             force.on("tick", function(e) {
                 var q = d3.geom.quadtree(nodes),
                 i = 0,
@@ -132,27 +145,65 @@ define([
                     q.visit(collide(nodes[i]));
                 }
 
-                svg.selectAll("circle")
+                svg.selectAll("circle.node")
                     .attr("cx", function(d) { return d.x; })
                     .attr("cy", function(d) { return d.y; });
 
-                link.attr("x1", function(d) { return d.initX; })
-                    .attr("y1", function(d) { return d.initY; })
-                    .attr("x2", function(d) {  
+                link.attr("x1", function(d) { 
+                    var dx = d.x - d.initX;
+                       var dy = d.y - d.initY;
+                       var dist = getDistance(dx, dy);
+                       if (dist > d.radius) {
+                         return d.initX; 
+                       } else {
+                         return -1;
+                       }
+                       })
+                     .attr("y1", function(d) { 
+                       var dx = d.x - d.initX;
+                       var dy = d.y - d.initY;
+                       var dist = getDistance(dx, dy);
+                       if (dist > d.radius) {
+                         return d.initY; 
+                       } else {
+                         return -1;
+                       } })
+                     .attr("x2", function(d) { 
+                       var dx = d.x - d.initX;
+                       var dy = d.y - d.initY;
+                       var dist = getDistance(dx, dy);
+                       if (dist > d.radius) {
+                       var ratio = 1-(d.radius / dist);
+                       return d.initX + (dx * ratio);
+                       } else {
+                         return -1;
+                       }
+                        })
+                     .attr("y2", function(d) { 
+                       var dx = d.x - d.initX;
+                       var dy = d.y - d.initY;
+                       var dist = getDistance(dx, dy);
+                       if (dist > d.radius) {
+                       var ratio = 1 - (d.radius / dist);
+                       return d.initY + (dy * ratio); 
+                       } else {
+                         return -1;
+                       }
+                });
+
+                svg.selectAll("circle.line-anchor")
+                    .style("opacity", function(d, i) { 
                         var dx = d.x - d.initX;
                         var dy = d.y - d.initY;
                         var dist = getDistance(dx, dy);
-                        var ratio = d.radius / dist;
-                        return d.x; 
-                    })
-                    .attr("y2", function(d) { 
-                        var dx = d.x - d.initX;
-                        var dy = d.y - d.initY;
-                        var dist = getDistance(dx, dy);
-                        var ratio = d.radius / dist;
-                        return d.y; 
-                    })
+                        if (dist > d.radius) {
+                            return 1;
+                        } else {
+                            return 0;
+                        }
+                    });
             });
+
 
             function getDistance(dx, dy) {
               return Math.sqrt ( dx * dx + dy * dy );
