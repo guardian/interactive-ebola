@@ -1,5 +1,5 @@
 /**
- * Project: Project name 
+ * Project: Project name
  * File:    Main SCSS
  */
 
@@ -17,14 +17,7 @@
 
 $c-brand: guss-color(guardian-brand);
 
-.guInteractive {
-    @import 'reset';
-    @import 'game';
 
-    width: gs-span(3);
+@import 'reset';
+@import 'table';
 
-    p {
-    	color: $c-brand;
-    	@include fs-bodyCopy(3);
-    }
-}
