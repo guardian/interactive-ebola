@@ -26,6 +26,8 @@ body{
 
 .element-interactive{
 	margin:0;
+	font-family:"Guardian Egyptian Web";
+	-webkit-font-smoothing: antialiased;
 
 	#map{
 	
@@ -45,6 +47,28 @@ body{
 			fill:#aaa;
 		}
 	
+	}
+
+	.countryContainer{
+		display:inline-block;
+		text-align: center;
+		margin: 0 1px;
+		background:rgba(255,255,255,0.5);
+		// border:1px solid #ddd;
+		padding:5px;
+		.circleContainer{
+			margin:0 auto;
+		}
+		.circle{
+			background:#005689;
+			border-radius:50%;
+			display:inline-block;
+		}
+		&.no-data{
+			.circle{
+				background:#aaa;
+			}
+		}
 	}
 
 }

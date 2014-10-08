@@ -6,6 +6,7 @@ define([
     'topojson',
     'data/ebolaData',
     'text!templates/mapTemplate.html',
+    'text!templates/circleTemplate.html',
     'd3.projections'
 ], function(
     $,
@@ -14,7 +15,8 @@ define([
     d3,
     topojson,
     EbolaData,
-    templateHTML
+    templateHTML,
+    circleTemplateHTML
 ) {
     'use strict';
 
@@ -23,13 +25,21 @@ define([
         className: 'mapView',
 
         template: _.template(templateHTML),
+        circleTemplate: _.template(circleTemplateHTML),
         
         events: {
         },
 
         initialize: function(options) {
             this.date = options.date;
-            Backbone.on('fetch:success', this.render, this);
+        },
+        updateData:function(){
+            _this = this;
+            d3.json("assets/js/world.json", function(error, world) {
+              if (error) return console.error(error);
+              _this.buildMap(world);
+            });
+            this.renderCircles();
         },
 
         buildMap : function(world){
@@ -116,15 +126,100 @@ define([
             }
 
         },
+        renderCircles: function(){
+            _this = this;
+            var countryData = EbolaData.getSheet('cases by date');
+            this.countriesByDay = [];
+            var allDays = _.uniq(_.pluck(countryData,'date'));
+            var allCountries = _.uniq(_.pluck(countryData,'country'));
+            var currentDay = allDays[this.date];
+            var dataByDay = _.groupBy(countryData,function(i){
+                return i.date;
+            })
+             _.each(allCountries,function(country){
+                var countryByDay = {
+                    country: country
+                }
+                var previousValue;
+                _.each(dataByDay,function(resultsPerDay){
+                    var date = resultsPerDay[0].date;
+                    var occured = false;
+
+                    //Loop through all days
+                    $.each(resultsPerDay,function(i,countryData){
+                        //Check if there was a result for this country on that date
+                        if (countryData.country === country){
+                            countryByDay[countryData.date] = {
+                                deaths: countryData.deaths,
+                                cases: countryData.cases
+                            }
+                            occured = true;
+                            previousValue = {
+                                deaths: countryData.deaths,
+                                cases: countryData.cases
+                            }
+                            //if found, stop this loop
+                            return false;
+                        }
+                    })
+                    //if each has ended without result
+                    if(!occured){
+                        // if there was no previous result for this country
+                        if(!previousValue){
+                            countryByDay[date] = {
+                                deaths: 0,
+                                cases: 0
+                            }
+                        }else{
+                            countryByDay[date] = previousValue;
+                        }
+                    }
+                })
+                
+                countryByDay.maxdeaths = _.max(countryByDay, function(country){return country.deaths; }).deaths;
+                countryByDay.maxcases = _.max(countryByDay, function(country){return country.cases; }).cases;
+                _this.countriesByDay.push(countryByDay);  
+            })
+            this.countriesByDay.maxdeaths = _.max(this.countriesByDay, function(country){return country.maxdeaths; }).maxdeaths;
+            this.countriesByDay.maxcases = _.max(this.countriesByDay, function(country){return country.maxcases; }).maxcases;
+            this.drawCircles("deaths",currentDay);
+        },
+        drawCircles: function(toggle,date){
+            var maxValue = "max" + toggle;
+            var initialWidth = $(this.el).width()/5;
+            $('.circlesContainer').html('');
+
+            _.each(this.countriesByDay,function(country){
+                var circleValue = country[date][toggle];
+                var isEmpty = false;
+                var maxCircleValue = country["max"+toggle];
+                var circleWidth = (circleValue/_this.countriesByDay["max" + toggle])*initialWidth;
+                var maxCircleWidth = (maxCircleValue/_this.countriesByDay["max" + toggle])*initialWidth;
+                if(circleWidth < 0.5){
+                    circleWidth = 2;
+                    if(circleValue === 0){
+                        isEmpty = true;
+                    }
+                }
+                var circleHTML = _this.circleTemplate({
+                    country : country.country,
+                    currentToggle : toggle,
+                    maxWidth : maxCircleWidth,
+                    circleWidth : circleWidth,
+                    circleValue : circleValue,
+                    isEmpty: isEmpty
+                });
+                $('.circlesContainer').append(circleHTML);
+            });
+        },
         updateMap: function(){
 
         },
 
         render: function() {
             this.$el.html(this.template());
-            
-            _this = this;
-              _this.buildMap();
+            Backbone.on('fetch:success', this.updateData, this);
+
             
             return this;
         }
