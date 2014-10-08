@@ -34,35 +34,14 @@ define([
 
         buildMap : function(world){
             _this = this;
-            this.width = $(window).innerWidth();
-            this.height = this.width*0.6;
 
-            var svg = d3.select("#map").append("svg")
-                .attr("width", this.width)
-                .attr("height", this.height);
-
-            //var projection = d3.geo.mercator()
-                //.scale(this.width/6)
-                //.translate([this.width / 2, (this.height/2)+50]);
-
-            var projection = d3.geo.robinson()
-                .scale(this.width/6)
-                .translate([this.width / 2, (this.height/2)+50]);
-
-
-            var path = d3.geo.path()
-                .projection(projection);
-
-            svg.selectAll(".subUnit")
-                .data(topojson.feature(world,world.objects.subunits).features)
-                .enter().append("path")
-                .attr("class",function(d){ return "subunit " + d.id})
-                .attr("d",path)
-
-            this.fillData(svg,projection, "cases"); // "cases" or "deaths"
+            this.fillData("cases"); // "cases" or "deaths"
         },
 
-        fillData: function(svg,projection,key){
+        fillData: function(key){
+
+
+
             var i;
             var countryData = EbolaData.getSheet('cases by date');
             var allDays = _.uniq(_.pluck(countryData,'date'));
@@ -75,23 +54,19 @@ define([
             var maxNum = 5000;
             var heatmapColors = getHeatmapColors(key);
 
-            var quantize = d3.scale.quantize()
-                .domain([0, maxNum])
-                .range(d3.range(heatmapColors.length).map(function(i) { return heatmapColors[i]; }));
-
             var countryClass, numCases;
-
+            console.log(currentData);
             if (currentData != undefined) {
 
-                svg.selectAll(".subunit")
-                .style("fill", "#ccc" ); // Reset colors !!
+               $(".subunit").css("fill", "#ccc"); // Reset colors !!
 
             for ( i = 0; i < currentData.length; i++ ) {
 
                 countryClass = currentData[i].countrycode.toUpperCase();
+                console.log(countryClass)
                 num = currentData[i][key];
-                svg.select(".subunit." + countryClass)
-                .style("fill", function(d, i) { return quantize(num) }); 
+                $(".subunit." + countryClass)
+                .css("fill", function(d, i) { return retrieveColor( num, maxNum, heatmapColors ) }); 
 
             }
 
@@ -130,6 +105,16 @@ define([
                 return arr;
             }
 
+            function retrieveColor( num, maxNum, colors ) {
+
+                var colorsLength = colors.length;
+                var bandSize = maxNum / colorsLength;
+                var colorIndex = Math.floor(num / bandSize)
+
+                return colors[colorIndex];
+
+            }
+
         },
         updateMap: function(){
 
@@ -139,10 +124,7 @@ define([
             this.$el.html(this.template());
             
             _this = this;
-            d3.json("assets/js/world.json", function(error, world) {
-              if (error) return console.error(error);
-              _this.buildMap(world);
-            });
+              _this.buildMap();
             
             return this;
         }
