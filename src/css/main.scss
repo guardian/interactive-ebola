@@ -28,14 +28,6 @@ body{
 	margin:0;
 
 	#map{
-	
-		display: inline-block;
-		position: relative;
-		width: 100%;
-		padding-bottom: 100%; 
-		vertical-align: middle;
-		overflow: hidden; 
-		
 		path{
 			fill:#ccc;
 			stroke-width:0.5;
@@ -44,7 +36,19 @@ body{
 		path:hover{
 			fill:#aaa;
 		}
-	
+		circle.node {
+		   fill-opacity: 0.5;
+		}
+
+		circle.line-anchor {
+  			fill: #333;
+		}
+
+		line.link {
+		  fill: none;
+		  stroke: #333;
+		  stroke-width: 1.5px;
+		}
 	}
 
 }

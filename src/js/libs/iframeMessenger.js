@@ -1,7 +1,7 @@
 /**
  * iframe-messenger
  *
- * version: 0.2.6
+ * version: 0.2.5
  * source: https://github.com/GuardianInteractive/iframe-messenger
  *
  */
@@ -12,39 +12,16 @@
     var iframeMessenger = (function() {
         var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
         var REFRESH_DELAY = 200;
-        var MSG_ID_PREFIX = 'iframeMessenger';
-        var _postMessageCallbacks = {};
+        var _postMessageCallback;
         var _currentHeight = 0;
+        var _bodyMargin = 0;
         var _images = [];
         var _options = {
             absoluteHeight: false
         };
 
-        /**
-         * Send message to parent page and store callback ref if needed.
-         * @param {oject} message Message to send to parent page.
-         * @param {function} callback (optional) Func. to call upon return msg.
-         */
-        function _postMessage(message, callback) {
-            var id = genID();
-            message.id = id;
-
-            // Store callback ready for post message event lookup
-            if (callback) {
-                _postMessageCallbacks[id] = callback;
-            }
-
+        function _postMessage(message) {
             window.parent.postMessage(JSON.stringify(message), '*');
-        }
-
-        /**
-         * Generate a unique ID string using known prefix and random chars.
-         * @returns {string} unique ID
-         */
-        function genID() {
-            // Rnd logic from http://stackoverflow.com/a/8084248
-            var rnd = Math.random().toString(36).substr(2, 5);
-            return MSG_ID_PREFIX + ':' + rnd;
         }
 
         /**
@@ -106,11 +83,8 @@
          * @return {int} Height integer
          */
         function _getHeight() {
-            var htmlEl = document.querySelector('html');
-            var htmlHeight = htmlEl.getBoundingClientRect().height;
-            var docScrollHeight = document.documentElement.scrollHeight;
-            var maxHeight = Math.max(htmlHeight, docScrollHeight);
-            return parseInt(maxHeight, 10);
+            var height = document.defaultView.getComputedStyle(document.body).height;
+            return parseInt(height, 10) + _bodyMargin;
         }
 
         /**
@@ -209,16 +183,19 @@
                 try {
                     data = JSON.parse(event.data);
                 } catch(err) {
-                    return console.error('Error parsing data. ' + err.toString());
+                    console.error('Error parsing data. ' + err.toString());
                 }
 
-                // Check postmessage is exptected 
-                if (data.hasOwnProperty('id') &&
-                    _postMessageCallbacks.hasOwnProperty(data.id))
-                {
-                    // Run callback with data a clean up afterwards
-                    _postMessageCallbacks[data.id](data);
-                    delete _postMessageCallbacks[data.id];
+
+                // The iframe receives unsolicited messages from the parent page
+                // such as Twitter widgets. Filter out only valid post messages.
+                if (typeof data === 'object' &&
+                    data.hasOwnProperty('iframeTop') &&
+                    data.hasOwnProperty('innerHeight') &&
+                    data.hasOwnProperty('pageYOffset') &&
+                    typeof _postMessageCallback === 'function'
+                ) {
+                    _postMessageCallback(data);
                 }
             }
         }
@@ -229,19 +206,10 @@
          * @param  {Function} callback Callback to be trigger on response.
          */
         function getPositionInformation(callback) {
+            _postMessageCallback = callback;
             _postMessage({
                 type:'get-position'
-            }, callback);
-        }
-
-        /**
-         * Get parent window location information.
-         * @param {Function} callback Callback to be trigger on response.
-         */
-        function getLocation(callback) {
-            _postMessage({
-                type: 'get-location'
-            }, callback);
+            });
         }
 
 
@@ -267,6 +235,8 @@
                 return;
             }
 
+            var styles = getComputedStyle(document.body);
+            _bodyMargin = parseInt(styles.marginTop, 10) + parseInt(styles.marginBottom, 10);
             document.documentElement.style.height = 'auto';
             document.body.style.height = 'auto';
 
@@ -330,7 +300,6 @@
             navigate: navigate,
             enableAutoResize: enableAutoResize,
             scrollTo: scrollTo,
-            getLocation: getLocation,
             getAbsoluteHeight: _getAbsoluteHeight,
             getPositionInformation: getPositionInformation
         };
