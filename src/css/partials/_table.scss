@@ -175,3 +175,44 @@ $smallWidth: 360px;
     padding-top: 3px;
     font-size: 12px;
 }
+
+
+/* Wide view */
+.wide-mode {
+    .ebola-countries,
+    .ebola-cases,
+    .ebola-deaths {
+        display: none;
+    }
+
+    .ebola-table td.ebola-year {
+        position: absolute;
+        width: auto;
+        transform: rotate(-90deg);
+        transform-origin: 0;
+        bottom: 0;
+        font-size: 11px;
+        font-family: 'Guardian Text Sans Web';
+        font-weight: 400;
+        left: 50%;
+        margin-left: -0.5em;
+        height: 0;
+        bottom: -3.5em;
+    }
+
+    .ebola-table tbody tr {
+        border: none;
+        display: table-cell;
+        position: relative;
+        padding: 0 4px;
+    }
+
+    .ebola-table tr:last-child .ebola-size-viz {
+        margin: 0;
+    }
+
+    .source {
+        margin-top: 4em;
+    }
+
+}

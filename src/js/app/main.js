@@ -20,8 +20,8 @@ define([
 
     var $el;
 
-    function startTableView() {
-        var tableView = new TableView();
+    function startTableView(mode) {
+        var tableView = new TableView({ mode: mode });
         $el.html(tableView.render().el);
     }
 

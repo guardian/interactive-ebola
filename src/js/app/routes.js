@@ -6,7 +6,7 @@ function(Backbone) {
 
     var Routes = Backbone.Router.extend({
         routes: {
-            'table'         : 'tableView',
+            'table(/:mode)' : 'tableView',
             'map(/:date)'   : 'mapView',
             '*other'        : 'default'
         }
