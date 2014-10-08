@@ -131,6 +131,9 @@ define([
             }
 
         },
+        renderCircles: function(){
+
+        },
         updateMap: function(){
 
         },
