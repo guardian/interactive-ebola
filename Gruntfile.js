@@ -46,15 +46,16 @@ module.exports = function(grunt) {
           baseUrl: './src/js/app/',
           paths: {
               // Example libraries. You can add your own here
-              'underscore'      : '../libs/underscore',
-              'jquery'          : '../libs/jquery',
-              'backbone'        : '../libs/backbone',
-              'text'            : '../libs/text',
-              'json'            : '../libs/json',
-              'd3'              : '../libs/d3',
-              'iframeMessenger' : '../libs/iframeMessenger',
-              'topojson'        : '../libs/topojson',
-              'numeral'         : '../libs/numeral'
+              'underscore'            : '../libs/underscore',
+              'jquery'                : '../libs/jquery',
+              'backbone'              : '../libs/backbone',
+              'text'                  : '../libs/text',
+              'json'                  : '../libs/json',
+              'd3'                    : '../libs/d3',
+              'iframeMessenger'       : '../libs/iframeMessenger',
+              'topojson'              : '../libs/topojson',
+              'numeral'               : '../libs/numeral',
+              'jQuery.XDomainRequest' : '../libs/jQuery.XDomainRequest'
           },
           optimize: 'none',
           inlineText: true,
@@ -92,7 +93,7 @@ module.exports = function(grunt) {
         assets: {
             files: [{
                 expand: true,
-                src: ['build/boot.js', 'build/js/main*.js']
+                src: ['build/boot.js', 'build/js/main*.js', 'build/index.html']
             }]
         }
     },
@@ -165,7 +166,10 @@ module.exports = function(grunt) {
                   replacement: pkg.config.cdn_url
                 }]
             },
-            files: [{src: ['build/boot.js'], dest: 'build/boot.js' }]
+            files: [
+              {src: ['build/boot.js'], dest: 'build/boot.js' },
+              {src: ['build/index.html'], dest: 'build/index.html' }
+            ]
         },
         local: {
             options: {
