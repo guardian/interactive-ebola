@@ -1,8 +1,22 @@
+$medWidth: 460px;
+$smallWidth: 360px;
+
+
 .ebola-table-wrapper {
     color: $guDarkGrey;
     font-family: 'Guardian Egyptian Web';
-    font-size: 16px;
-    line-height: 1.4em;
+    font-size: 12px;
+    line-height: 1.2em;
+
+    @media (min-width: $smallWidth) {
+        font-size: 14px;
+        line-height: 1.2em;
+    }
+
+    @media (min-width: $medWidth) {
+        font-size: 16px;
+        line-height: 1.3em;
+    }
 
     h1 {
         color: $guDarkBlue;
@@ -12,8 +26,10 @@
         display: inline-block;
         white-space: nowrap;
         padding-top: 14px;
+        margin-top: 0;
     }
 }
+
 
 .ebola-table {
     border-collapse: collapse;
@@ -23,7 +39,11 @@
     }
 
     tbody tr {
-        border-top: 1px solid #BFBFBF;
+        border-top: 1px solid #ECECEC;
+
+        @media (min-width: $medWidth) {
+            border-color: #BFBFBF;
+        }
     }
 
     tbody tr:first-child {
@@ -31,10 +51,20 @@
     }
 
     td {
-        padding: 10px 0;
+        padding: 4px 0;
         vertical-align: top;
         font-weight: 400;
+
+        @media (min-width: $smallWidth) {
+            padding: 6px 0;
+        }
+
+        @media (min-width: $medWidth) {
+            padding: 10px 0;
+        }
     }
+
+
 
     td.ebola-year {
         width: 4.5em;
