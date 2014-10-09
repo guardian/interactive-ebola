@@ -31,7 +31,7 @@ define([
             'mousemove #timeSlider': 'readSlider',
             'change #timeSlider': 'readSlider',
             'mouseover .countryContainer': 'activeCountry',
-            'mouseleave .circlesContainer': 'hideTooltip'
+            'mouseleave .circlesContainer': 'hideTooltip',
             'click .caseToggle button': 'switchToggle'
         },
 
