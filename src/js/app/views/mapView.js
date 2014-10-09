@@ -32,6 +32,7 @@ define([
             'change #timeSlider': 'readSlider',
             'mouseover .countryContainer': 'activeCountry',
             'mouseleave .circlesContainer': 'hideTooltip'
+            'click .caseToggle button': 'switchToggle'
         },
 
         toggle: "deaths",
@@ -42,6 +43,16 @@ define([
                 this.predefinedValue = true;
             }else{
                 this.predefinedValue = false;
+            }
+        },
+        switchToggle: function(e){
+            var targetToggle = $(e.currentTarget).data('name');
+            if(targetToggle != this.toggle){
+                $('.caseToggle button').removeClass('active');
+                $(e.currentTarget).addClass('active');
+                this.toggle=targetToggle;
+                this.drawCircles(this.allDays[this.date]);
+                this.fillMapData();
             }
         },
         updateData:function(){
@@ -56,7 +67,6 @@ define([
 
         fillMapData: function(){
             var i;
-            console.log(this.countriesByDay);
             var currentDay = this.allDays[this.date];
             var dataByDay = _.groupBy(this.countryData,function(i){
                 return i.date;
@@ -125,7 +135,6 @@ define([
             _this = this;
             this.countriesByDay = [];
             var allCountries = _.uniq(_.pluck(this.countryData,'country'));
-            console.log(this.countryData);
             var currentDay = this.allDays[this.date];
             var dataByDay = _.groupBy(this.countryData,function(i){
                 return i.date;
@@ -186,6 +195,7 @@ define([
             $('.circlesContainer').html('');
 
             _.each(this.countriesByDay,function(country){
+                console.log(country);
                 var circleValue = country[date][_this.toggle];
                 var isEmpty = false;
                 var maxCircleValue = country["max"+_this.toggle];
@@ -198,7 +208,6 @@ define([
                         isEmpty = true;
                     }
                 }
-                console.log(country);
                 var circleHTML = _this.circleTemplate({
                     country : country.country,
                     currentToggle : _this.toggle,
