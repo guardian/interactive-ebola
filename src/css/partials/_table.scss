@@ -186,6 +186,19 @@ $smallWidth: 360px;
     }
 
     .ebola-table td.ebola-year {
+        display: block;
+        height: 50%;
+        position: absolute;
+        width: 50%;
+        border-right: 1px solid #EEE;
+        bottom: 0;
+        padding: 0;
+        left: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    .ebola-table td.ebola-year span {
         position: absolute;
         width: auto;
         transform: rotate(-90deg);
@@ -194,10 +207,11 @@ $smallWidth: 360px;
         font-size: 11px;
         font-family: 'Guardian Text Sans Web';
         font-weight: 400;
-        left: 50%;
-        margin-left: -0.5em;
+        left: 100%;
+        margin-left: -0.6em;
         height: 0;
         bottom: -3.5em;
+        box-sizing: border-box;
     }
 
     .ebola-table tbody tr {
