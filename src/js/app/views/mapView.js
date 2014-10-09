@@ -2,18 +2,13 @@ define([
     'jquery',
     'backbone',
     'underscore',
-    'd3',
-    'topojson',
     'data/ebolaData',
     'text!templates/mapTemplate.html',
     'text!templates/circleTemplate.html',
-    'd3.projections'
 ], function(
     $,
     Backbone,
     _,
-    d3,
-    topojson,
     EbolaData,
     templateHTML,
     circleTemplateHTML
@@ -26,7 +21,7 @@ define([
 
         template: _.template(templateHTML),
         circleTemplate: _.template(circleTemplateHTML),
-        
+
         events: {
             'mousemove #timeSlider': 'readSlider',
             'change #timeSlider': 'readSlider',
@@ -38,7 +33,7 @@ define([
 
         toggle: "deaths",
 
-        initialize: function(options) { 
+        initialize: function(options) {
             if(options.date){
                 this.date = options.date;
                 this.predefinedValue = true;
@@ -89,14 +84,14 @@ define([
                     countryClass = country.countrycode.toUpperCase();
                     countryValue = country[currentDay][_this.toggle];
                     $(".subunit." + countryClass)
-                    .css("fill", function(d, i) { 
+                    .css("fill", function(d, i) {
                         if(countryValue === 0){
                             return defaultMapColor;
                         }else{
-                            return _this.retrieveColor( countryValue, maxNum, heatmapColors ) 
+                            return _this.retrieveColor( countryValue, maxNum, heatmapColors )
                         }
-                        
-                    }); 
+
+                    });
                 });
             }
 
@@ -131,7 +126,7 @@ define([
             } else { // deaths
                 arr = ["rgb(255,226,208)", "rgb(255,204,172)", "rgb(255,172,122)", "rgb(255,129,52)", "rgb(228,97,18)", "rgb(183,70,1)", "rgb(128,49,1)", "rgb(82,32,1)"]
             }
-            //"rgb(243,253,255)", "rgb(255,249,245)", 
+            //"rgb(243,253,255)", "rgb(255,249,245)",
             return arr;
         },
         createCircleData: function(){
@@ -183,10 +178,10 @@ define([
                         }
                     }
                 })
-                
+
                 countryByDay.maxdeaths = _.max(countryByDay, function(country){return country.deaths; }).deaths;
                 countryByDay.maxcases = _.max(countryByDay, function(country){return country.cases; }).cases;
-                _this.countriesByDay.push(countryByDay);  
+                _this.countriesByDay.push(countryByDay);
             })
             this.countriesByDay.maxdeaths = _.max(this.countriesByDay, function(country){return country.maxdeaths; }).maxdeaths;
             this.countriesByDay.maxcases = _.max(this.countriesByDay, function(country){return country.maxcases; }).maxcases;
@@ -204,7 +199,7 @@ define([
                 var circleWidth = (circleValue/_this.countriesByDay["max" + _this.toggle])*initialWidth;
                 var maxCircleWidth = (maxCircleValue/_this.countriesByDay["max" + _this.toggle])*initialWidth;
                 var circleColor = _this.retrieveColor(circleValue, _this.countriesByDay["max" + _this.toggle]+1, _this.getHeatmapColors());
-                
+
                 if(circleWidth < 0.5){
                     circleWidth = 2;
                     if(circleValue === 0){
@@ -247,7 +242,7 @@ define([
             this.showSliderInput();
         },
 
-        readSlider: function(){ 
+        readSlider: function(){
             if(this.$timeSlider.val() !== this.date){
                 this.date = this.$timeSlider.val();
                 this.drawCircles(this.allDays[this.date]);
@@ -308,7 +303,7 @@ define([
                 var maxSliderValue = parseInt(_this.$timeSlider.attr('max'));
                 var i = parseInt(currentValue);
                 this.pauseData = false;
-                
+
                 function toNextPoint() {
                     setTimeout(function () {
                         if(!this.pauseData){
@@ -333,7 +328,7 @@ define([
         render: function() {
             this.$el.html(this.template());
             Backbone.on('fetch:success', this.updateData, this);
-            
+
             return this;
         }
     });
