@@ -76,7 +76,9 @@ define([
             var currentData = dataByDay[currentDay];
             var defaultMapColor = "#f0f0f0";
             var maxNum = this.countriesByDay["max"+this.toggle]+1;
-            var roundMaxNum = (Math.floor(maxNum / 1000)) * 1000;
+
+            maxNum = (Math.ceil(maxNum / 1000)) * 1000;
+            //var roundMaxNum = (Math.floor(maxNum / 1000)) * 1000;
             var heatmapColors = this.getHeatmapColors();
 
             var countryClass, numCases;
@@ -98,7 +100,7 @@ define([
                 });
             }
 
-            buildMapKey(heatmapColors, maxNum, roundMaxNum);
+            buildMapKey(heatmapColors, maxNum);
 
             function buildMapKey(colors, maxNum) {
 
@@ -110,7 +112,7 @@ define([
 
                 }
 
-                htmlString += "<p style='float: left'>0</p><p style='float: right'>&gt;" + roundMaxNum + "</p>";
+                htmlString += "<p style='float: left'>0</p><p style='float: right'>" + maxNum + "</p>";
 
                 $key.html(htmlString);
 
@@ -125,10 +127,11 @@ define([
         getHeatmapColors:function() {
             var arr = [];
             if (_this.toggle == "cases") {
-                arr = ["rgb(243,253,255)", "rgb(195,247,255)", "rgb(150,242,255)", "rgb(112,223,239)", "rgb(79,190,206)", "rgb(49,160,176)", "rgb(17,128,144)", "rgb(1,94,108)", "rgb(1,59,68)"];
+                arr = ["rgb(195,247,255)", "rgb(150,242,255)", "rgb(112,223,239)", "rgb(79,190,206)", "rgb(49,160,176)", "rgb(17,128,144)", "rgb(1,94,108)", "rgb(1,59,68)"];
             } else { // deaths
-                arr = ["rgb(255,249,245)", "rgb(255,226,208)", "rgb(255,204,172)", "rgb(255,172,122)", "rgb(255,129,52)", "rgb(228,97,18)", "rgb(183,70,1)", "rgb(128,49,1)", "rgb(1,59,68)"]
+                arr = ["rgb(255,226,208)", "rgb(255,204,172)", "rgb(255,172,122)", "rgb(255,129,52)", "rgb(228,97,18)", "rgb(183,70,1)", "rgb(128,49,1)", "rgb(82,32,1)"]
             }
+            //"rgb(243,253,255)", "rgb(255,249,245)", 
             return arr;
         },
         createCircleData: function(){
