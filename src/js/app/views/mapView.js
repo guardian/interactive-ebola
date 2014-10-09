@@ -76,6 +76,7 @@ define([
             var currentData = dataByDay[currentDay];
             var defaultMapColor = "#f0f0f0";
             var maxNum = this.countriesByDay["max"+this.toggle]+1;
+            var roundMaxNum = (Math.floor(maxNum / 1000)) * 1000;
             var heatmapColors = this.getHeatmapColors();
 
             var countryClass, numCases;
@@ -97,7 +98,7 @@ define([
                 });
             }
 
-            buildMapKey(heatmapColors, maxNum);
+            buildMapKey(heatmapColors, maxNum, roundMaxNum);
 
             function buildMapKey(colors, maxNum) {
 
@@ -109,7 +110,7 @@ define([
 
                 }
 
-                htmlString += "<p style='float: left'>0</p><p style='float: right'>" + maxNum + "</p>";
+                htmlString += "<p style='float: left'>0</p><p style='float: right'>&gt;" + roundMaxNum + "</p>";
 
                 $key.html(htmlString);
 
