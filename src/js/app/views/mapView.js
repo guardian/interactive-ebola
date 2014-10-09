@@ -261,15 +261,15 @@ define([
                 w = map.width();
                 h = map.height;
 
-                element = document.getElementsByClassName(id)[0];
+                map = document.getElementById("map")
+
+                element = map.getElementsByClassName(id)[0];
 
                 rect = element.getBoundingClientRect();
                 //console.log(id + "   " + offset.top + "    " + offset.left);
 
-                //console.log(rect)
-
-                x = rect.x - offset.left + rect.width / 2;
-                y = rect.y - offset.top + rect.height / 2;
+                x = rect.left - offset.left + rect.width / 2;
+                y = rect.top - offset.top + rect.height / 2;
 
                 $("#map-tooltip").css({top: y, left: x}).show();
                 $("#map-tooltip-inner").html("<p>" + name + "</p>");
