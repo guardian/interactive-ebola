@@ -32,7 +32,8 @@ define([
             'change #timeSlider': 'readSlider',
             'mouseover .countryContainer': 'activeCountry',
             'mouseleave .circlesContainer': 'hideTooltip',
-            'click .caseToggle button': 'switchToggle'
+            'click .caseToggle button': 'switchToggle',
+            'click .playButton': 'autoPlayData'
         },
 
         toggle: "deaths",
@@ -195,7 +196,6 @@ define([
             $('.circlesContainer').html('');
 
             _.each(this.countriesByDay,function(country){
-                console.log(country);
                 var circleValue = country[date][_this.toggle];
                 var isEmpty = false;
                 var maxCircleValue = country["max"+_this.toggle];
@@ -283,14 +283,48 @@ define([
                 $("#map-tooltip-inner").html("<p>" + name + "</p>");
 
             }
-
-            
-
-
         },
 
-         hideTooltip: function(e){
+        hideTooltip: function(e){
             $("#map-tooltip").hide();
+        },
+        autoPlayData:function(e){
+            var currentState = $(e.currentTarget).attr('data-status');
+            if(currentState==="paused"){
+                startPlaying();
+                currentState = "playing";
+                $(e.currentTarget).attr('data-status',currentState);
+            }else if(currentState==="playing"){
+                stopPlaying();
+                currentState = "paused";
+                $(e.currentTarget).attr('data-status',currentState);
+            }
+
+            function startPlaying(){
+                var currentValue = _this.$timeSlider.val();
+                var maxSliderValue = parseInt(_this.$timeSlider.attr('max'));
+                var i = parseInt(currentValue);
+                this.pauseData = false;
+                
+                function toNextPoint() {
+                    setTimeout(function () {
+                        if(!this.pauseData){
+                            if(i===maxSliderValue){
+                                i=0;
+                            }else{
+                                i++;
+                            }
+                            _this.$timeSlider.val(i);
+                            _this.readSlider();
+                            toNextPoint();
+                        }
+                    }, 500);
+                }
+                toNextPoint();
+            }
+            function stopPlaying(){
+                this.pauseData = true;
+            }
         },
 
         render: function() {

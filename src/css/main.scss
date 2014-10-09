@@ -49,6 +49,7 @@ body{
 	.caseToggle{
 		display:inline-block;
 		margin-bottom:20px;
+		font-family:'Guardian Text Sans Web', Arial;
 		p{
 			margin:0;
 			display:inline-block;
@@ -61,7 +62,7 @@ body{
 				padding:0 20px;
 				outline:none;
 				font-size:14px;
-				font-family:'Guardian Text Sans Web';
+				font-family:'Guardian Text Sans Web', Arial;
 				line-height:0;
 				cursor:pointer;
 				&:first-child{
@@ -184,6 +185,43 @@ body{
 		border-radius:99999px;
 		background:#333;
 		position:absolute;
+		cursor:pointer;
+		&[data-status="paused"]:before {
+			content: '';
+			position: absolute;
+			display: block;
+			width: 0;
+			height: 0;
+			border-style: solid;
+			border-width: 0.5em 0 0.5em 1.2em;
+			border-color: transparent transparent transparent #f1f1f1;
+			-moz-transform: scale(0.99999);
+			top: 50%;
+			left: 0;
+			margin-top: -.5em;
+			margin-left: 0.9em;
+		}
+		&[data-status="playing"]:before {
+			content:'';
+			position: absolute;
+			display: block;
+			height:18px;
+			width:3px;
+			border-right:5px solid;
+			border-left:5px solid;
+			border-color:#f1f1f1;
+			left:15px;
+			top:13px;
+		}
+		&:hover{
+			background:#ffbb00;
+			&[data-status="paused"]:before {
+				border-color: transparent transparent transparent #333;
+			}
+			&[data-status="playing"]:before {
+				border-color:#333;
+			}
+		}
 	}
 	.rangeContainer{
 		margin-left:64px;
@@ -277,18 +315,22 @@ body{
 		display: block;
 		position: absolute;
 		width: 1px;
-		height: 10px;
-		background: #ddd;
-		top: 12px;
+		height: 6px;
+		background: #aaa;
+		top: 14px;
+		left:1px;
+		z-index:-1;
 	}
 	#timeSlider:after{
 		content: '';
 		display: block;
 		position: absolute;
 		width: 1px;
-		height: 10px;
-		background: #ddd;
-		top: 12px;
+		height: 6px;
+		background: #aaa;
+		top: 14px;
+		right:1px;
+		z-index:-1;
 	}
 	.rangeTicks{
 		width:100%;
