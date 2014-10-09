@@ -54,6 +54,7 @@ define([
                 this.toggle=targetToggle;
                 this.drawCircles(this.allDays[this.date]);
                 this.fillMapData();
+                this.showSliderInput();
             }
         },
         updateData:function(){
@@ -75,7 +76,7 @@ define([
             var currentData = dataByDay[currentDay];
             var defaultMapColor = "#f0f0f0";
             var maxNum = this.countriesByDay["max"+this.toggle]+1;
-            var heatmapColors = getHeatmapColors();
+            var heatmapColors = this.getHeatmapColors();
 
             var countryClass, numCases;
 
@@ -89,8 +90,7 @@ define([
                         if(countryValue === 0){
                             return defaultMapColor;
                         }else{
-                            // console.log(maxNum);
-                            return retrieveColor( countryValue, maxNum, heatmapColors ) 
+                            return _this.retrieveColor( countryValue, maxNum, heatmapColors ) 
                         }
                         
                     }); 
@@ -114,41 +114,21 @@ define([
                 $key.html(htmlString);
 
             }
-
-            function getHeatmapColors() {
-                var arr = [];
-
-                if (_this.toggle == "cases") {
-                    arr.push("rgb(243,253,255)");
-                    arr.push("rgb(195,247,255)");
-                    arr.push("rgb(150,242,255)");
-                    arr.push("rgb(112,223,239)");
-                    arr.push("rgb(79,190,206)");
-                    arr.push("rgb(49,160,176)");
-                    arr.push("rgb(17,128,144)");
-                    arr.push("rgb(1,94,108)");
-                    arr.push("rgb(1,59,68)");
-                } else { // deaths
-                    arr.push("rgb(255,249,245)");
-                    arr.push("rgb(255,226,208)");
-                    arr.push("rgb(255,204,172)");
-                    arr.push("rgb(255,172,122)");
-                    arr.push("rgb(255,129,52)");
-                    arr.push("rgb(228,97,18)");
-                    arr.push("rgb(183,70,1)");
-                    arr.push("rgb(128,49,1)");
-                    arr.push("rgb(1,59,68)");
-                }
-                return arr;
+        },
+        retrieveColor:function(num, maxNum, colors) {
+            var colorsLength = colors.length;
+            var bandSize = maxNum / colorsLength;
+            var colorIndex = Math.floor(num / bandSize)
+            return colors[colorIndex];
+        },
+        getHeatmapColors:function() {
+            var arr = [];
+            if (_this.toggle == "cases") {
+                arr = ["rgb(243,253,255)", "rgb(195,247,255)", "rgb(150,242,255)", "rgb(112,223,239)", "rgb(79,190,206)", "rgb(49,160,176)", "rgb(17,128,144)", "rgb(1,94,108)", "rgb(1,59,68)"];
+            } else { // deaths
+                arr = ["rgb(255,249,245)", "rgb(255,226,208)", "rgb(255,204,172)", "rgb(255,172,122)", "rgb(255,129,52)", "rgb(228,97,18)", "rgb(183,70,1)", "rgb(128,49,1)", "rgb(1,59,68)"]
             }
-
-            function retrieveColor( num, maxNum, colors ) {
-                var colorsLength = colors.length;
-                var bandSize = maxNum / colorsLength;
-                var colorIndex = Math.floor(num / bandSize)
-                return colors[colorIndex];
-            }
-
+            return arr;
         },
         createCircleData: function(){
             _this = this;
@@ -219,6 +199,7 @@ define([
                 var maxCircleValue = country["max"+_this.toggle];
                 var circleWidth = (circleValue/_this.countriesByDay["max" + _this.toggle])*initialWidth;
                 var maxCircleWidth = (maxCircleValue/_this.countriesByDay["max" + _this.toggle])*initialWidth;
+                var circleColor = _this.retrieveColor(circleValue, _this.countriesByDay["max" + _this.toggle]+1, _this.getHeatmapColors());
                 
                 if(circleWidth < 0.5){
                     circleWidth = 2;
@@ -234,7 +215,8 @@ define([
                     circleValue : circleValue,
                     isEmpty: isEmpty,
                     maxHeight: initialWidth,
-                    countryCode: country.countrycode
+                    countryCode: country.countrycode,
+                    backgroundColor: circleColor
                 });
                 $('.circlesContainer').append(circleHTML);
             });
@@ -270,7 +252,7 @@ define([
             }
         },
         showSliderInput:function(){
-            $('#currentSliderInput span').html(this.allDays[this.date]);
+            $('#currentSliderInput').html("All " + this.toggle + " until: " + this.allDays[this.date]);
         },
 
         activeCountry: function(e){
@@ -292,7 +274,6 @@ define([
                 element = map.getElementsByClassName(id)[0];
 
                 rect = element.getBoundingClientRect();
-                //console.log(id + "   " + offset.top + "    " + offset.left);
 
                 x = rect.left - offset.left + rect.width / 2;
                 y = rect.top - offset.top + rect.height / 2;
