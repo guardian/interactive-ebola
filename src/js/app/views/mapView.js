@@ -28,66 +28,67 @@ define([
         circleTemplate: _.template(circleTemplateHTML),
         
         events: {
+            'mousemove #timeSlider': 'readSlider',
+            'change #timeSlider': 'readSlider',
+            'mouseover .countryContainer': 'activeCountry'
         },
 
-        initialize: function(options) {
-            this.date = options.date;
+        toggle: "deaths",
+
+        initialize: function(options) { 
+            if(options.date){
+                this.date = options.date;
+                this.predefinedValue = true;
+            }else{
+                this.predefinedValue = false;
+            }
         },
         updateData:function(){
             _this = this;
-            d3.json("assets/js/world.json", function(error, world) {
-              if (error) return console.error(error);
-              _this.buildMap(world);
-            });
-            this.renderCircles();
+            this.countryData = EbolaData.getSheet('cases by date');
+            this.allDays = _.uniq(_.pluck(this.countryData,'date'));
+
+            this.createCircleData();
+            this.renderSlider();
         },
 
-        buildMap : function(world){
-            _this = this;
 
-            this.fillData("cases"); // "cases" or "deaths"
-        },
-
-        fillData: function(key){
-
-
-
+        fillMapData: function(){
             var i;
-            var countryData = EbolaData.getSheet('cases by date');
-            var allDays = _.uniq(_.pluck(countryData,'date'));
-            var currentDay = allDays[this.date];
-            var dataByDay = _.groupBy(countryData,function(i){
+            console.log(this.countriesByDay);
+            var currentDay = this.allDays[this.date];
+            var dataByDay = _.groupBy(this.countryData,function(i){
                 return i.date;
             })
-
             var currentData = dataByDay[currentDay];
-            var maxNum = 5000;
-            var heatmapColors = getHeatmapColors(key);
+            var defaultMapColor = "#f0f0f0";
+            var maxNum = this.countriesByDay["max"+this.toggle]+1;
+            var heatmapColors = getHeatmapColors(this.toggle);
 
             var countryClass, numCases;
-            console.log(currentData);
+
             if (currentData != undefined) {
-
-               $(".subunit").css("fill", "#ccc"); // Reset colors !!
-
-            for ( i = 0; i < currentData.length; i++ ) {
-
-                countryClass = currentData[i].countrycode.toUpperCase();
-                console.log(countryClass)
-                num = currentData[i][key];
-                $(".subunit." + countryClass)
-                .css("fill", function(d, i) { return retrieveColor( num, maxNum, heatmapColors ) }); 
-
+               $(".subunit").css("fill", defaultMapColor); // Reset colors !!
+                $.each(this.countriesByDay,function(i,country){
+                    countryClass = country.countrycode.toUpperCase();
+                    countryValue = country[currentDay][_this.toggle];
+                    $(".subunit." + countryClass)
+                    .css("fill", function(d, i) { 
+                        if(countryValue === 0){
+                            return defaultMapColor;
+                        }else{
+                            // console.log(maxNum);
+                            return retrieveColor( countryValue, maxNum, heatmapColors ) 
+                        }
+                        
+                    }); 
+                });
             }
 
-        }
-
-            function getHeatmapColors(key) {
-
+            function getHeatmapColors() {
                 var arr = [];
 
-                if (key == "cases") {
-
+                if (this.toggle == "cases") {
                     arr.push("rgb(247,251,255)");
                     arr.push("rgb(222,235,247)");
                     arr.push("rgb(198,219,239)");
@@ -97,9 +98,7 @@ define([
                     arr.push("rgb(33,113,181)");
                     arr.push("rgb(8,81,156)");
                     arr.push("rgb(8,48,107)");
-
                 } else { // deaths
-
                     arr.push("rgb(255,248,247)");
                     arr.push("rgb(247,224,222)");
                     arr.push("rgb(239,202,198)");
@@ -109,36 +108,32 @@ define([
                     arr.push("rgb(181,44,33)");
                     arr.push("rgb(156,26,8)");
                     arr.push("rgb(107,29,8)");
-
                 }
-
                 return arr;
             }
 
             function retrieveColor( num, maxNum, colors ) {
-
                 var colorsLength = colors.length;
                 var bandSize = maxNum / colorsLength;
                 var colorIndex = Math.floor(num / bandSize)
-
                 return colors[colorIndex];
-
             }
 
         },
-        renderCircles: function(){
+        createCircleData: function(){
             _this = this;
-            var countryData = EbolaData.getSheet('cases by date');
             this.countriesByDay = [];
-            var allDays = _.uniq(_.pluck(countryData,'date'));
-            var allCountries = _.uniq(_.pluck(countryData,'country'));
-            var currentDay = allDays[this.date];
-            var dataByDay = _.groupBy(countryData,function(i){
+            var allCountries = _.uniq(_.pluck(this.countryData,'country'));
+            console.log(this.countryData);
+            var currentDay = this.allDays[this.date];
+            var dataByDay = _.groupBy(this.countryData,function(i){
                 return i.date;
             })
              _.each(allCountries,function(country){
+                var countryCode = _.findWhere(_this.countryData, {country:country}).countrycode;
                 var countryByDay = {
-                    country: country
+                    country: country,
+                    countrycode: countryCode
                 }
                 var previousValue;
                 _.each(dataByDay,function(resultsPerDay){
@@ -182,44 +177,72 @@ define([
             })
             this.countriesByDay.maxdeaths = _.max(this.countriesByDay, function(country){return country.maxdeaths; }).maxdeaths;
             this.countriesByDay.maxcases = _.max(this.countriesByDay, function(country){return country.maxcases; }).maxcases;
-            this.drawCircles("deaths",currentDay);
         },
-        drawCircles: function(toggle,date){
-            var maxValue = "max" + toggle;
+
+        drawCircles: function(date){
+            var maxValue = "max" + this.toggle;
             var initialWidth = $(this.el).width()/5;
             $('.circlesContainer').html('');
 
             _.each(this.countriesByDay,function(country){
-                var circleValue = country[date][toggle];
+                var circleValue = country[date][_this.toggle];
                 var isEmpty = false;
-                var maxCircleValue = country["max"+toggle];
-                var circleWidth = (circleValue/_this.countriesByDay["max" + toggle])*initialWidth;
-                var maxCircleWidth = (maxCircleValue/_this.countriesByDay["max" + toggle])*initialWidth;
+                var maxCircleValue = country["max"+_this.toggle];
+                var circleWidth = (circleValue/_this.countriesByDay["max" + _this.toggle])*initialWidth;
+                var maxCircleWidth = (maxCircleValue/_this.countriesByDay["max" + _this.toggle])*initialWidth;
+                
                 if(circleWidth < 0.5){
                     circleWidth = 2;
                     if(circleValue === 0){
                         isEmpty = true;
                     }
                 }
+                console.log(country);
                 var circleHTML = _this.circleTemplate({
                     country : country.country,
-                    currentToggle : toggle,
+                    currentToggle : _this.toggle,
                     maxWidth : maxCircleWidth,
                     circleWidth : circleWidth,
                     circleValue : circleValue,
-                    isEmpty: isEmpty
+                    isEmpty: isEmpty,
+                    maxHeight: initialWidth,
+                    countryCode: country.countrycode
                 });
                 $('.circlesContainer').append(circleHTML);
             });
         },
-        updateMap: function(){
+        renderSlider: function(){
+            this.$timeSlider = $('#timeSlider');
+            this.$timeSlider.attr('max',this.allDays.length -1);
+            if(this.predefinedValue){
+                this.$timeSlider.val(this.date);
+            }else{
+                this.date = this.allDays.length -1;
+                this.$timeSlider.val(this.date);
+            }
+            this.drawCircles(this.allDays[this.date]);
+            this.fillMapData();
+            this.showSliderInput();
+        },
 
+        readSlider: function(){ 
+            if(this.$timeSlider.val() !== this.date){
+                this.date = this.$timeSlider.val();
+                this.drawCircles(this.allDays[this.date]);
+                this.fillMapData();
+                this.showSliderInput();
+            }
+        },
+        showSliderInput:function(){
+            $('#currentSliderInput span').html(this.allDays[this.date]);
+        },
+
+        activeCountry: function(){
         },
 
         render: function() {
             this.$el.html(this.template());
             Backbone.on('fetch:success', this.updateData, this);
-
             
             return this;
         }

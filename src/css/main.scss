@@ -34,13 +34,13 @@ body{
 		display: inline-block;
 		position: relative;
 		width: 100%;
-		padding-bottom: 100%; 
+		// padding-bottom: 100%; 
 		vertical-align: middle;
 		overflow: hidden; 
 		
 		path{
-			fill:#ccc;
-			stroke-width:0.5;
+			fill:#eee;
+			stroke-width:1.5;
 			stroke:#fff;
 		}
 		path:hover{
@@ -54,13 +54,23 @@ body{
 		text-align: center;
 		margin: 0 1px;
 		background:rgba(255,255,255,0.5);
-		// border:1px solid #ddd;
 		padding:5px;
+		box-sizing:border-box;
+		border:1px solid transparent;
+		h2{
+			font-size:18px;
+			margin:10px 0 5px;
+		}
+		h3{
+			font-size:14px;
+			margin:0;
+			font-weight:normal;
+		}
 		.circleContainer{
 			margin:0 auto;
 		}
 		.circle{
-			background:#005689;
+			background:#52C6D8;
 			border-radius:50%;
 			display:inline-block;
 		}
@@ -69,6 +79,13 @@ body{
 				background:#aaa;
 			}
 		}
+		&:hover{
+			border:1px solid #aaa;
+			box-shadow:1px 1px 3px rgba(0,0,0,0.2);
+		}
+	}
+	#timeSlider{
+		width:100%;
 	}
 
 }
