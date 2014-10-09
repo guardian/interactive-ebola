@@ -63,7 +63,6 @@ define([
         },
 
         render: function() {
-            console.log(this.mode);
             if (this.mode && this.mode.toLowerCase() === 'wide') {
                 this.$el.addClass('wide-mode');
             }
