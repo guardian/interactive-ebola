@@ -74,7 +74,7 @@ define([
             var currentData = dataByDay[currentDay];
             var defaultMapColor = "#f0f0f0";
             var maxNum = this.countriesByDay["max"+this.toggle]+1;
-            var heatmapColors = getHeatmapColors(this.toggle);
+            var heatmapColors = getHeatmapColors();
 
             var countryClass, numCases;
 
@@ -96,19 +96,37 @@ define([
                 });
             }
 
+            buildMapKey(heatmapColors, maxNum);
+
+            function buildMapKey(colors, maxNum) {
+
+                var i, htmlString = "<h3>Number of " + _this.toggle + "</h3>", $key = $("#map-key"), bandWidth = 100 / colors.length;
+
+                for (i = 0; i < colors.length; i++) {
+
+                    htmlString += "<div class='key-band' style='background: " + colors[i] + "; width: " + bandWidth + "%'></div>";
+
+                }
+
+                htmlString += "<p style='float: left'>0</p><p style='float: right'>" + maxNum + "</p>";
+
+                $key.html(htmlString);
+
+            }
+
             function getHeatmapColors() {
                 var arr = [];
 
-                if (this.toggle == "cases") {
-                    arr.push("rgb(247,251,255)");
-                    arr.push("rgb(222,235,247)");
-                    arr.push("rgb(198,219,239)");
-                    arr.push("rgb(158,202,225)");
-                    arr.push("rgb(107,174,214)");
-                    arr.push("rgb(66,146,198)");
-                    arr.push("rgb(33,113,181)");
-                    arr.push("rgb(8,81,156)");
-                    arr.push("rgb(8,48,107)");
+                if (_this.toggle == "cases") {
+                    arr.push("rgb(243,253,255)");
+                    arr.push("rgb(195,247,255)");
+                    arr.push("rgb(150,242,255)");
+                    arr.push("rgb(112,223,239)");
+                    arr.push("rgb(79,190,206)");
+                    arr.push("rgb(49,160,176)");
+                    arr.push("rgb(17,128,144)");
+                    arr.push("rgb(1,94,108)");
+                    arr.push("rgb(1,59,68)");
                 } else { // deaths
                     arr.push("rgb(255,249,245)");
                     arr.push("rgb(255,226,208)");
@@ -118,7 +136,7 @@ define([
                     arr.push("rgb(228,97,18)");
                     arr.push("rgb(183,70,1)");
                     arr.push("rgb(128,49,1)");
-                    arr.push("rgb(80,31,1)");
+                    arr.push("rgb(1,59,68)");
                 }
                 return arr;
             }
