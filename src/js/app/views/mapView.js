@@ -30,7 +30,8 @@ define([
         events: {
             'mousemove #timeSlider': 'readSlider',
             'change #timeSlider': 'readSlider',
-            'mouseover .countryContainer': 'activeCountry'
+            'mouseover .countryContainer': 'activeCountry',
+            'mouseleave .circlesContainer': 'hideTooltip'
         },
 
         toggle: "deaths",
@@ -99,15 +100,15 @@ define([
                     arr.push("rgb(8,81,156)");
                     arr.push("rgb(8,48,107)");
                 } else { // deaths
-                    arr.push("rgb(255,248,247)");
-                    arr.push("rgb(247,224,222)");
-                    arr.push("rgb(239,202,198)");
-                    arr.push("rgb(225,158,161)");
-                    arr.push("rgb(214,107,108)");
-                    arr.push("rgb(198,67,66)");
-                    arr.push("rgb(181,44,33)");
-                    arr.push("rgb(156,26,8)");
-                    arr.push("rgb(107,29,8)");
+                    arr.push("rgb(255,249,245)");
+                    arr.push("rgb(255,226,208)");
+                    arr.push("rgb(255,204,172)");
+                    arr.push("rgb(255,172,122)");
+                    arr.push("rgb(255,129,52)");
+                    arr.push("rgb(228,97,18)");
+                    arr.push("rgb(183,70,1)");
+                    arr.push("rgb(128,49,1)");
+                    arr.push("rgb(80,31,1)");
                 }
                 return arr;
             }
@@ -237,7 +238,42 @@ define([
             $('#currentSliderInput span').html(this.allDays[this.date]);
         },
 
-        activeCountry: function(){
+        activeCountry: function(e){
+
+            var id = e.target.className, element, rect, offset, x, y, w, h, map = $("#map"), name;
+
+            if ($(e.target).hasClass("countryContainer")) {
+
+                name = $(e.target).data().countryname;
+
+                id = id.substring(id.length-3, id.length).toUpperCase();
+
+                offset = map.offset();
+                w = map.width();
+                h = map.height;
+
+                element = document.getElementsByClassName(id)[0];
+
+                rect = element.getBoundingClientRect();
+                //console.log(id + "   " + offset.top + "    " + offset.left);
+
+                //console.log(rect)
+
+                x = rect.x - offset.left + rect.width / 2;
+                y = rect.y - offset.top + rect.height / 2;
+
+                $("#map-tooltip").css({top: y, left: x}).show();
+                $("#map-tooltip-inner").html("<p>" + name + "</p>");
+
+            }
+
+            
+
+
+        },
+
+         hideTooltip: function(e){
+            $("#map-tooltip").hide();
         },
 
         render: function() {

@@ -46,6 +46,37 @@ body{
 		path:hover{
 			fill:#aaa;
 		}
+
+		#map-tooltip {
+			position: absolute;
+			height: 40px;
+			margin-top: -40px;
+			margin-left: -1px;
+			border-left: 2px dotted #333;
+			text-align: center;
+		}
+
+		#map-tooltip-inner {
+			position: absolute;
+			width: 500px;
+			margin-left: -250px;
+			margin-top: -30px;
+			text-align: center;
+		}
+
+		#map-tooltip-inner p {
+			display: inline-block;
+			padding: 5px;
+			margin: 0 0 0 0;
+			white-space: nowrap;
+  			overflow: hidden;
+  			background:rgba(255,255,255,0.5);
+  			border:1px solid #aaa;
+  			box-sizing:border-box;
+			box-shadow:1px 1px 3px rgba(0,0,0,0.2);
+			font-size: 16px;
+			font-weight: 500;
+		}
 	
 	}
 
