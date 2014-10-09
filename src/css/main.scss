@@ -29,8 +29,65 @@ body{
 	font-family:"Guardian Egyptian Web";
 	-webkit-font-smoothing: antialiased;
 
+	h1{
+		font-size:24px;
+		color:#005689;
+		width:auto;
+		display:inline-block;
+		margin-top:0;
+		margin-bottom:5px;
+		
+		.headerBorder{
+			border-top:3px solid #52c6d8;
+			width:50%;
+			margin-bottom:8px;
+		}
+	}
+	.header{
+		overflow:hidden;
+	}
+	.caseToggle{
+		display:inline-block;
+		margin-bottom:20px;
+		p{
+			margin:0;
+			display:inline-block;
+		}
+		.toggleButton{
+			display:inline-block;
+			button{
+				background:#F5F5F5;
+				height:34px;
+				padding:0 20px;
+				font-size:14px;
+				font-family:'Guardian Text Sans Web';
+				line-height:0;
+				cursor:pointer;
+				&:first-child{
+					border-radius:99999px 0 0 99999px;
+					border-top:1px solid #DCDCDC;
+					border-left:1px solid #DCDCDC;
+					border-bottom:1px solid #DCDCDC;
+					border-right:none;
+				}
+				&:last-child{
+					border-radius:0 99999px 99999px 0;
+					border-top:1px solid #DCDCDC;
+					border-right:1px solid #DCDCDC;
+					border-bottom:1px solid #DCDCDC;
+					border-left:none;
+				}
+				&.active{
+					border:none;
+					background:#52c6d8;
+					cursor:default;
+				}
+				
+			}
+		}
+	}
+
 	#map{
-	
 		display: inline-block;
 		position: relative;
 		width: 100%;
@@ -46,13 +103,44 @@ body{
 		path:hover{
 			fill:#aaa;
 		}
+
+		#map-tooltip {
+			position: absolute;
+			height: 40px;
+			margin-top: -40px;
+			margin-left: -1px;
+			border-left: 2px dotted #333;
+			text-align: center;
+		}
+
+		#map-tooltip-inner {
+			position: absolute;
+			width: 500px;
+			margin-left: -250px;
+			margin-top: -30px;
+			text-align: center;
+		}
+
+		#map-tooltip-inner p {
+			display: inline-block;
+			padding: 5px;
+			margin: 0 0 0 0;
+			white-space: nowrap;
+  			overflow: hidden;
+  			background:rgba(255,255,255,0.5);
+  			border:1px solid #aaa;
+  			box-sizing:border-box;
+			box-shadow:1px 1px 3px rgba(0,0,0,0.2);
+			font-size: 16px;
+			font-weight: 500;
+		}
 	
 	}
 
 	.countryContainer{
 		display:inline-block;
 		text-align: center;
-		margin: 0 1px;
+		margin: 0 1px 5px;
 		background:rgba(255,255,255,0.5);
 		padding:5px;
 		box-sizing:border-box;
@@ -81,11 +169,19 @@ body{
 		}
 		&:hover{
 			border:1px solid #aaa;
-			box-shadow:1px 1px 3px rgba(0,0,0,0.2);
+			box-shadow:0 1px 3px rgba(0,0,0,0.2);
 		}
 	}
 	#timeSlider{
 		width:100%;
+	}
+
+	@media(min-width:570px){
+		.caseToggle{
+			float:right;
+			padding-top:10px;
+			margin-bottom:0;
+		}
 	}
 
 }
