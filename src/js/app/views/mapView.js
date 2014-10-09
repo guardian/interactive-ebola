@@ -223,6 +223,14 @@ define([
         renderSlider: function(){
             this.$timeSlider = $('#timeSlider');
             this.$timeSlider.attr('max',this.allDays.length -1);
+            var ticksAmount = this.allDays.length-1;
+            for(i=1;i<ticksAmount;i++){
+                var tick = $('<div class="tick">');
+                tick.css('left',function(){
+                    return (100/ticksAmount)*i + "%";
+                })
+                $('.rangeTicks').append(tick);
+            }
             if(this.predefinedValue){
                 this.$timeSlider.val(this.date);
             }else{
