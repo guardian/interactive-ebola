@@ -20,19 +20,19 @@ define([
         className: 'mapView',
 
         template: _.template(templateHTML),
+
         circleTemplate: _.template(circleTemplateHTML),
 
         events: {
             'mousemove #timeSlider': 'readSlider',
             'change #timeSlider': 'readSlider',
-            // 'mouseover .countryContainer': 'activeCountry',
-            'click .countryContainer': 'activeCountry',
             'mouseleave .circlesContainer': 'hideTooltip',
             'click .caseToggle button': 'switchToggle',
             'click .playButton': 'autoPlayData'
         },
 
         toggle: "deaths",
+
         colors:{
             "deaths": "#E3672A",
             "cases": "#52c6d8"
@@ -46,6 +46,7 @@ define([
                 this.predefinedValue = false;
             }
         },
+
         switchToggle: function(e){
             var targetToggle = $(e.currentTarget).data('name');
             if(targetToggle != this.toggle){
@@ -57,6 +58,7 @@ define([
                 this.showSliderInput();
             }
         },
+
         updateData:function(){
             _this = this;
             this.countryData = EbolaData.getSheet('cases by date');
@@ -67,7 +69,6 @@ define([
             this.createCircleData();
             this.renderSlider();
         },
-
 
         fillMapData: function(){
             var i;
@@ -105,27 +106,26 @@ define([
             buildMapKey(heatmapColors, maxNum);
 
             function buildMapKey(colors, maxNum) {
-
-                var i, htmlString = "<h3>Number of " + _this.toggle + "</h3>", $key = $("#map-key"), bandWidth = 100 / colors.length;
+                var i;
+                var htmlString = "<h3>Number of " + _this.toggle + "</h3>";
+                var $key = $("#map-key"), bandWidth = 100 / colors.length;
 
                 for (i = 0; i < colors.length; i++) {
-
                     htmlString += "<div class='key-band' style='background: " + colors[i] + "; width: " + bandWidth + "%'></div>";
-
                 }
 
                 htmlString += "<p style='float: left'>0</p><p style='float: right'>" + maxNum + "</p>";
-
                 $key.html(htmlString);
-
             }
         },
+
         retrieveColor:function(num, maxNum, colors) {
             var colorsLength = colors.length;
             var bandSize = maxNum / colorsLength;
-            var colorIndex = Math.floor(num / bandSize)
+            var colorIndex = Math.floor(num / bandSize);
             return colors[colorIndex];
         },
+
         getHeatmapColors:function() {
             var arr = [];
             if (_this.toggle == "cases") {
@@ -136,6 +136,7 @@ define([
             //"rgb(243,253,255)", "rgb(255,249,245)",
             return arr;
         },
+
         createCircleData: function(){
             _this = this;
             this.countriesByDay = [];
@@ -151,7 +152,9 @@ define([
                     country: country,
                     countrycode: countryCode
                 }
+                
                 var previousValue;
+                
                 _.each(dataByDay,function(resultsPerDay){
                     var date = resultsPerDay[0].date;
                     var occured = false;
@@ -190,7 +193,8 @@ define([
                 countryByDay.maxdeaths = _.max(countryByDay, function(country){return country.deaths; }).deaths;
                 countryByDay.maxcases = _.max(countryByDay, function(country){return country.cases; }).cases;
                 _this.countriesByDay.push(countryByDay);
-            })
+            });
+            
             this.countriesByDay = _.sortBy(_this.countriesByDay, function(num){ return num[lastDay][_this.toggle] }).reverse();
             this.countriesByDay.maxdeaths = _.max(this.countriesByDay, function(country){return country.maxdeaths; }).maxdeaths;
             this.countriesByDay.maxcases = _.max(this.countriesByDay, function(country){return country.maxcases; }).maxcases;
@@ -251,9 +255,19 @@ define([
                     countryCode: country.countrycode,
                     backgroundColor: circleColor
                 });
-                $('.circlesContainer').append(circleHTML);
-            });
+
+                var $circle = $(circleHTML);
+                $circle.on(
+                    'click, mouseover',
+                    null,
+                    country,
+                    _.bind(this.activeCountry, this)
+                );
+                
+                $('.circlesContainer').append($circle);
+            }, this);
         },
+
         renderSlider: function(){
             this.$timeSlider = $('#timeSlider');
             this.$timeSlider.attr('max',this.allDays.length -1);
@@ -262,7 +276,7 @@ define([
                 var tick = $('<div class="tick">');
                 tick.css('left',function(){
                     return (100/ticksAmount)*i + "%";
-                })
+                });
                 $('.rangeTicks').append(tick);
             }
             if(this.predefinedValue){
@@ -284,59 +298,72 @@ define([
                 this.showSliderInput();
             }
         },
+
         showSliderInput:function(){
             $('#currentSliderInput').html("All " + this.toggle + " until: " + this.allDays[this.date]);
         },
 
         activeCountry: function(e){
-            var id = e.currentTarget.className, element, rect, offset, x, y, w, h, map = $("#map"), name, override;
-
-            if ($(e.currentTarget).hasClass("countryContainer")) {
-                name = $(e.currentTarget).data().countryname;
-                id = id.substring(id.length-3, id.length);
-                override = checkForOffsetOverride(id);
-
-                if (override === null) {
-                    id = id.toUpperCase();
-                    offset = map.offset();
-                    w = map.width();
-                    h = map.height;
-                    map = document.getElementById("map");
-                    element = map.getElementsByClassName(id)[0];
-                    rect = element.getBoundingClientRect();
-                    x = rect.left - offset.left + rect.width / 2;
-                    y = rect.top - offset.top + rect.height / 2;
-                } else {
-                    x = override.x + "%";
-                    y = override.y + "%";
-                }
-                $("#map-tooltip").css({top: y, left: x}).show();
-                $("#map-tooltip-inner").html("<p>" + name + "</p>");
+            if (!e || !e.hasOwnProperty('data') || !e.data) {
+                return;
             }
 
-            function checkForOffsetOverride(name) {
+            var id = e.target.className;
+            var element;
+            var rect;
+            var offset;
+            var x;
+            var y;
+            var w;
+            var h;
+            var map = $("#map");
+            var name;
+            var override;
 
-                var obj = null;
+            name = e.data.country;
+            id = e.data.countrycode;
+            override = this.checkForOffsetOverride(id);
 
-                 _.each(_this.offsetData,function(offsetCountry){
+            if ( override === null ) {
+                id = id.toUpperCase();
+                offset = map.offset();
+                w = map.width();
+                h = map.height;
+                map = document.getElementById("map");
+                element = map.getElementsByClassName(id)[0];
+                rect = element.getBoundingClientRect();
+                x = rect.left - offset.left + rect.width / 2;
+                y = rect.top - offset.top + rect.height / 2;
 
-                    if (offsetCountry.countrycode == name) {
-
-                        obj = {
-                            x: offsetCountry.percentageoffsetx,
-                            y: offsetCountry.percentageoffsety
-                        };
-                    } 
-
-                });
-
-                 return obj;
+            } else {
+                x = override.x + "%";
+                y = override.y + "%";
             }
+
+            $("#map-tooltip").css({top: y, left: x}).show();
+            $("#map-tooltip-inner").html("<p>" + name + "</p>");
+
         },
 
-        hideTooltip: function(e){
+
+        checkForOffsetOverride: function(name) {
+            var obj = null;
+             _.each(_this.offsetData,function(offsetCountry){
+                if (offsetCountry.countrycode === name) {
+                    obj = {
+                        x: offsetCountry.percentageoffsetx,
+                        y: offsetCountry.percentageoffsety
+                    };
+                    console.log("yes");
+                } 
+            });
+             return obj;
+        },
+
+        hideTooltip: function(){
             $("#map-tooltip").hide();
         },
+
         autoPlayData:function(e){
             var currentState = $(e.currentTarget).attr('data-status');
             if(currentState==="paused"){
@@ -379,6 +406,7 @@ define([
                 }
                 toNextPoint();
             }
+
             function stopPlaying(){
                 this.pauseData = true;
             }
