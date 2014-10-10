@@ -60,6 +60,7 @@ define([
         updateData:function(){
             _this = this;
             this.countryData = EbolaData.getSheet('cases by date');
+            console.log(this.countryData);
             this.allDays = _.uniq(_.pluck(this.countryData,'date'));
 
             this.createCircleData();
@@ -306,20 +307,22 @@ define([
             function startPlaying(){
                 var currentValue = _this.$timeSlider.val();
                 var maxSliderValue = parseInt(_this.$timeSlider.attr('max'));
-                var i = parseInt(currentValue);
+                var i = 0;
                 this.pauseData = false;
                 
                 function toNextPoint() {
                     setTimeout(function () {
                         if(!this.pauseData){
-                            if(i===maxSliderValue){
-                                i=0;
-                            }else{
-                                i++;
-                            }
                             _this.$timeSlider.val(i);
                             _this.readSlider();
-                            toNextPoint();
+                            console.log(i);
+                            if(i<maxSliderValue){
+                                i++;
+                                toNextPoint();
+                            }else if(i===maxSliderValue){
+                                console.log('stop');
+                            }
+
                         }
                     }, 500);
                 }
