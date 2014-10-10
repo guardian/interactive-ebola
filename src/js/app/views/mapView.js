@@ -45,6 +45,12 @@ define([
             }else{
                 this.predefinedValue = false;
             }
+            
+            Backbone.on('fetch:success', this.render, this);
+
+            // Resize
+            var limtedResize = _.debounce(this.render, 200);
+            $(window).resize(_.bind(limtedResize, this));
         },
 
         switchToggle: function(e){
@@ -414,8 +420,11 @@ define([
         },
 
         render: function() {
-            this.$el.html(this.template());
-            Backbone.on('fetch:success', this.updateData, this);
+            var data = EbolaData.getSheet('Historic cases');
+            if (data && data.length > 0) {
+                this.$el.html(this.template());
+                this.updateData();
+            }
 
             return this;
         }
