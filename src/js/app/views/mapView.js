@@ -236,7 +236,6 @@ define([
             
             // var countriesByDaySorted = _.sortBy(_this.countriesByDay, function(num){ return num[lastDay][_this.toggle] });
             $('.circlesContainer').html('');
-            
             _.each(_this.countriesByDay,function(country){
                 var circleValue = country[date][_this.toggle];
                 var isEmpty = false;
