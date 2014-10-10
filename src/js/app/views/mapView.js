@@ -138,6 +138,7 @@ define([
         createCircleData: function(){
             _this = this;
             this.countriesByDay = [];
+            var lastDay = this.allDays[this.allDays.length-1];
             var allCountries = _.uniq(_.pluck(this.countryData,'country'));
             var currentDay = this.allDays[this.date];
             var dataByDay = _.groupBy(this.countryData,function(i){
@@ -189,39 +190,44 @@ define([
                 countryByDay.maxcases = _.max(countryByDay, function(country){return country.cases; }).cases;
                 _this.countriesByDay.push(countryByDay);
             })
+            this.countriesByDay = _.sortBy(_this.countriesByDay, function(num){ return num[lastDay][_this.toggle] }).reverse();
             this.countriesByDay.maxdeaths = _.max(this.countriesByDay, function(country){return country.maxdeaths; }).maxdeaths;
             this.countriesByDay.maxcases = _.max(this.countriesByDay, function(country){return country.maxcases; }).maxcases;
+            
         },
 
         drawCircles: function(date){
             var maxValue = "max" + this.toggle;
-            // var allCountries = this.allCountries.length;
-            var allCountries = 7;
+            var allCountries = this.allCountries.length;
             var containerWidth = $(this.el).width();
             var countryColumns = 3;
             if(allCountries<=6){
                 if(containerWidth>480){
                     countryColumns = 6;
                 }else{
-                    countryColumns=3;
+                    countryColumns=6;
                 }
             }else if(allCountries<=8){
                 if(containerWidth>480){
-                    countryColumns = 8;
-                }else{
-                    countryColumns=4;
-                }
+                   countryColumns = 8;
+               }else{
+                   countryColumns=5;
+               }
             }else if(allCountries>8){
+               if(containerWidth>480){
+                   countryColumns = 8;
+               }else{
+                   countryColumns=7;
+               }
             }
 
-            var initialWidth = (containerWidth/countryColumns)-12;
-            console.log(containerWidth);
+            var initialWidth = (containerWidth/countryColumns)-8;
             
-
-            
+            // var countriesByDaySorted = _.sortBy(_this.countriesByDay, function(num){ return num[lastDay][_this.toggle] });
             $('.circlesContainer').html('');
-
-            _.each(this.countriesByDay,function(country){
+            console.log(_this.countriesByDay);
+            _.each(_this.countriesByDay,function(country){
+                console.log(country,'hey');
                 var circleValue = country[date][_this.toggle];
                 var isEmpty = false;
                 var maxCircleValue = _this.countriesByDay["max"+_this.toggle];
