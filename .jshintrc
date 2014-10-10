@@ -9,7 +9,7 @@
     "newcap"        : true,     // Require capitalization of all constructor functions e.g. `new F()`
     "noempty"       : true,     // Prohibit use of empty blocks
     "nonew"         : true,     // Prohibit use of constructors for side-effects (without assignment)
-    "quotmark"      : true,     // Quotation mark consistency: ensure whatever is used is consistent
+    "quotmark"      : false,     // Quotation mark consistency: ensure whatever is used is consistent
     "unused"        : true,     // Require all defined variables be used
     "strict"        : true,     // Requires all functions run in ES5 Strict Mode
     "maxdepth"      : 4,        // Max depth of nested blocks (within functions)
