@@ -51,12 +51,9 @@ module.exports = function(grunt) {
               'backbone'              : '../libs/backbone',
               'text'                  : '../libs/text',
               'json'                  : '../libs/json',
-              'd3'                    : '../libs/d3',
               'iframeMessenger'       : '../libs/iframeMessenger',
-              'topojson'              : '../libs/topojson',
               'numeral'               : '../libs/numeral',
-              'jQuery.XDomainRequest' : '../libs/jQuery.XDomainRequest',
-              'd3.projections'        : '../libs/d3.geo.projection.v0' 
+              'jQuery.XDomainRequest' : '../libs/jQuery.XDomainRequest'
           },
           optimize: 'none',
           inlineText: true,
