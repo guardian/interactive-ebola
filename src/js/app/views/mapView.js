@@ -59,6 +59,7 @@ define([
         updateData:function(){
             _this = this;
             this.countryData = EbolaData.getSheet('cases by date');
+            this.offsetData = EbolaData.getSheet('manual offset overrides');
             this.allDays = _.uniq(_.pluck(this.countryData,'date'));
             this.allCountries = _.uniq(_.pluck(this.countryData,'country'));
 
@@ -284,30 +285,63 @@ define([
 
         activeCountry: function(e){
 
-            var id = e.target.className, element, rect, offset, x, y, w, h, map = $("#map"), name;
+            var id = e.target.className, element, rect, offset, x, y, w, h, map = $("#map"), name, override;
 
             if ($(e.target).hasClass("countryContainer")) {
 
                 name = $(e.target).data().countryname;
 
-                id = id.substring(id.length-3, id.length).toUpperCase();
+                id = id.substring(id.length-3, id.length);
+
+                override = checkForOffsetOverride(id);
+
+                if ( override === null ) {
+
+                    id = id.toUpperCase();
 
                 offset = map.offset();
                 w = map.width();
                 h = map.height;
 
-                map = document.getElementById("map")
+                map = document.getElementById("map");
 
                 element = map.getElementsByClassName(id)[0];
-
                 rect = element.getBoundingClientRect();
 
                 x = rect.left - offset.left + rect.width / 2;
                 y = rect.top - offset.top + rect.height / 2;
 
+            } else {
+                x = override.x + "%";
+                y = override.y + "%";
+            }
+
                 $("#map-tooltip").css({top: y, left: x}).show();
                 $("#map-tooltip-inner").html("<p>" + name + "</p>");
 
+            }
+
+            function checkForOffsetOverride(name) {
+
+                var obj = null;
+
+                console.log(name)
+
+                 _.each(_this.offsetData,function(offsetCountry){
+
+                    if (offsetCountry.countrycode == name) {
+
+                        obj = {
+                            x: offsetCountry.percentageoffsetx,
+                            y: offsetCountry.percentageoffsety
+                        };
+
+                        console.log("yes")
+                    } 
+
+                });
+
+                 return obj;
             }
         },
 
