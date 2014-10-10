@@ -1,8 +1,8 @@
-<div class="countryContainer <% if(isEmpty){ %>no-data<%}%> <%=countryCode%>" data-countryname="<%=country%>">
+<div class="countryContainer <% if(isEmpty){ %>no-data<%}%> <%=countryCode%>" data-countryname="<%=country%>" style="width:<%=maxWidth%>px;">
 	<div class="circleContainer" style="width:<%=maxWidth%>px; height:<%=maxHeight%>px">
 		<div class="circle"style="width:<%=circleWidth%>px; height:<%=circleWidth%>px; margin-top:<%= (maxHeight-circleWidth)/2 %>px;background:<%=backgroundColor%>;"></div>
 
 	</div>
-	<h2><%= country %></h2>
+	<h2 data-countrycode="<%=countryCode%>" data-countryname="<%=country%>"></h2>
 	<h3><%= circleValue %> <%= currentToggle %></h3>
 </div>

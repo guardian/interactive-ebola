@@ -32,6 +32,10 @@ define([
         },
 
         toggle: "deaths",
+        colors:{
+            "deaths": "#E3672A",
+            "cases": "#52c6d8"
+        },
 
         initialize: function(options) {
             if(options.date){
@@ -55,8 +59,8 @@ define([
         updateData:function(){
             _this = this;
             this.countryData = EbolaData.getSheet('cases by date');
-            console.log(this.countryData);
             this.allDays = _.uniq(_.pluck(this.countryData,'date'));
+            this.allCountries = _.uniq(_.pluck(this.countryData,'country'));
 
             this.createCircleData();
             this.renderSlider();
@@ -190,16 +194,39 @@ define([
 
         drawCircles: function(date){
             var maxValue = "max" + this.toggle;
-            var initialWidth = $(this.el).width()/5;
+            // var allCountries = this.allCountries.length;
+            var allCountries = 7;
+            var containerWidth = $(this.el).width();
+            var countryColumns = 3;
+            if(allCountries<=6){
+                if(containerWidth>480){
+                    countryColumns = 6;
+                }else{
+                    countryColumns=3;
+                }
+            }else if(allCountries<=8){
+                if(containerWidth>480){
+                    countryColumns = 8;
+                }else{
+                    countryColumns=4;
+                }
+            }else if(allCountries>8){
+            }
+
+            var initialWidth = (containerWidth/countryColumns)-12;
+            console.log(containerWidth);
+            
+
+            
             $('.circlesContainer').html('');
 
             _.each(this.countriesByDay,function(country){
                 var circleValue = country[date][_this.toggle];
                 var isEmpty = false;
-                var maxCircleValue = country["max"+_this.toggle];
+                var maxCircleValue = _this.countriesByDay["max"+_this.toggle];
                 var circleWidth = (circleValue/_this.countriesByDay["max" + _this.toggle])*initialWidth;
                 var maxCircleWidth = (maxCircleValue/_this.countriesByDay["max" + _this.toggle])*initialWidth;
-                var circleColor = _this.retrieveColor(circleValue, _this.countriesByDay["max" + _this.toggle]+1, _this.getHeatmapColors());
+                var circleColor = _this.colors[_this.toggle];
 
                 if(circleWidth < 0.5){
                     circleWidth = 2;
@@ -300,9 +327,14 @@ define([
             }
 
             function startPlaying(){
+                var hasLooped = false;
                 var currentValue = _this.$timeSlider.val();
                 var maxSliderValue = parseInt(_this.$timeSlider.attr('max'));
-                var i = 0;
+                var i = parseInt(currentValue);
+                if(i===maxSliderValue){
+                    i = 0;
+                }
+
                 this.pauseData = false;
 
                 function toNextPoint() {
@@ -310,12 +342,13 @@ define([
                         if(!this.pauseData){
                             _this.$timeSlider.val(i);
                             _this.readSlider();
-                            console.log(i);
                             if(i<maxSliderValue){
                                 i++;
                                 toNextPoint();
                             }else if(i===maxSliderValue){
-                                console.log('stop');
+                                stopPlaying();
+                                currentState = "paused";
+                                $(e.currentTarget).attr('data-status',currentState);
                             }
 
                         }

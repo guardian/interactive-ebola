@@ -100,7 +100,7 @@ body{
 		width: 100%;
 		// padding-bottom: 100%; 
 		vertical-align: middle;
-		overflow: hidden; 
+		// overflow: hidden; 
 		
 		path{
 			fill:#eee;
@@ -170,21 +170,29 @@ body{
 
 	
 	}
-
+	.circlesContainer{
+		margin-top:10px;
+		margin-bottom:20px;
+		text-align: left;
+	}
 	.countryContainer{
 		display:inline-block;
+		vertical-align: top;
 		text-align: center;
-		margin: 0 1px 5px;
+		margin: 0 0 5px -3px;
 		background:rgba(255,255,255,0.5);
 		padding:5px;
-		box-sizing:border-box;
 		border:1px solid transparent;
 		h2{
-			font-size:18px;
+			font-size:14px;
 			margin:10px 0 5px;
+			&:before{
+				content:attr(data-countrycode);
+				text-transform: uppercase;
+			}
 		}
 		h3{
-			font-size:14px;
+			font-size:12px;
 			margin:0;
 			font-weight:normal;
 		}
@@ -204,6 +212,12 @@ body{
 		&:hover{
 			border:1px solid #aaa;
 			box-shadow:0 1px 3px rgba(0,0,0,0.2);
+		}
+		@media(min-width:479px){
+			h2:before{
+				font-size:16px;
+				content:attr(data-countryname);
+			}
 		}
 	}
 	.progressContainer{
