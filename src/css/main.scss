@@ -99,8 +99,7 @@ body{
 		position: relative;
 		width: 100%;
 		// padding-bottom: 100%; 
-		vertical-align: middle;
-		overflow: hidden; 
+		vertical-align: middle; 
 		
 		path{
 			fill:#eee;
@@ -117,6 +116,7 @@ body{
 			margin-left: -1px;
 			border-left: 2px dotted #333;
 			text-align: center;
+			display: none;
 		}
 
 		#map-tooltip-inner {
