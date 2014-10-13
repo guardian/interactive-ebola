@@ -24,6 +24,7 @@ body{
 @import 'colours';
 @import 'table';
 @import 'fonts';
+@import 'nouislider';
 
 .element-interactive{
 	margin:0;
@@ -306,139 +307,38 @@ body{
 		}
 	}
 	.rangeContainer{
-		margin-left:42px;
+		margin-left:52px;
 		box-sizing:border-box;
-		margin-right:0;
+		margin-right:10px;
 		top:4px;
 		position: relative;
+		padding-top:1px;
 	}
 	// input[type=range]::-webkit-slider-runnable-track{
 	// 	height:8px;
 	// 	background:red !important;
 	// }
-	#timeSlider{
-		width:100%;
-		/* fix for FF unable to apply focus style bug  */
-		// border: 1px solid white; 
-		color:#000;
-		margin:9px 0 0;
-		-webkit-appearance: none;
-		&::-webkit-slider-runnable-track {
-		    width: 100%;
-		    height:80px !important;
-		    color:#000;
-		    margin:0;
-		    padding:0;
-		    font-size:0;
-		    line-height:0;
-		    background:#F5F5F5;
-		    border: 1px solid #DCDCDC;
-		    border-radius:4px;
-		}
-		&::-webkit-slider-thumb {
-		    -webkit-appearance: none;
-		    cursor:ew-resize;
-		    border: none;
-		    height:20px;
-		    width:20px;
-		    border-radius:4px;
-		    background: #333;
-		    margin-top: -8px;
-		}
-		&:focus{
-			outline:none;
-		}
-		&:focus::-webkit-slider-runnable-track {
-		    background: #dcdcdc;
-		}
-
-		&::-moz-range-track {
-		    width: 100%;
-		    height:8px;
-		    background:#F5F5F5;
-		    border: 1px solid #DCDCDC;
-		    border-radius:4px;
-		}
-		&::-moz-range-thumb {
-		    border: none;
-		    height:20px;
-		    width:20px;
-		    border-radius:4px;
-		    background: #333;
-		    margin-top: -8px;
-		}
-		&:-moz-focusring{
-		    outline: 1px solid white;
-		    outline-offset: -1px;
-		}
-		&:focus::-moz-range-track {
-		    background: #dcdcdc;
-		}
-		&::-ms-track {
-		    width: 100%;
-		    height:8px;
-		    background:#F5F5F5;
-		    border: 1px solid #DCDCDC;
-		    border-radius: 4px;
-		}
-		&::-ms-fill-lower {
-		    outline: none;
-		    background: #777;
-		    border-radius: 10px 0 0 10px;
-		}
-		&::-ms-thumb {
-		    border: none;
-		    height:20px;
-		    width:20px;
-		    border-radius:4px;
-		    background: #333;
-		    margin-top:8px;
-		}
-		&:focus::-ms-track {
-		    background: #dcdcdc;
-		}
-	}
-	#timeSlider:before{
-		content: '';
-		display: block;
-		position: absolute;
-		width: 1px;
-		height: 6px;
-		background: #aaa;
-		top: 14px;
-		left:9px;
-		z-index:-1;
-		display: none;
-	}
-	#timeSlider:after{
-		content: '';
-		display: block;
-		position: absolute;
-		width: 1px;
-		height: 6px;
-		background: #aaa;
-		top: 14px;
-		right:9px;
-		z-index:-1;
-		display: none;
-	}
-	.rangeTicks{
-		display: none;
-		width:100%;
-		border-left:12px solid transparent;
-		border-right:12px solid transparent;
-		position: absolute;
+	#slider-range{
+		border-radius:4px;
 		height:8px;
-		z-index:-1;
-		box-sizing:border-box;
-		top:14px;
-		.tick{
-			background:#aaa;
-			height:100%;
-			position: absolute;
-			width:1px;
+		background:#f5f5f5;
+		border:1px solid #dcdcdc;
+		margin-top:7px;
+		.noUi-handle{
+			border-radius:4px;
+			height:20px;
+			width:20px;
+			background:#333;
+			box-shadow:none;
+			border:none;
+			&:before,&:after{
+				display:none;
+				content:'';
+			}
 		}
 	}
+
+		
 	#currentSliderInput{
 		font-family:'Guardian Text Sans Web', Arial;
 		padding-top:7px;
@@ -482,3 +382,7 @@ body{
 	}
 
 }
+
+
+
+

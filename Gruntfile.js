@@ -53,7 +53,8 @@ module.exports = function(grunt) {
               'json'                  : '../libs/json',
               'iframeMessenger'       : '../libs/iframeMessenger',
               'numeral'               : '../libs/numeral',
-              'jQuery.XDomainRequest' : '../libs/jQuery.XDomainRequest'
+              'jQuery.XDomainRequest' : '../libs/jQuery.XDomainRequest',
+              'nouislider'            : '../libs/nouislider'
           },
           optimize: 'none',
           inlineText: true,

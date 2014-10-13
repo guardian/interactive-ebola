@@ -2,6 +2,7 @@ define([
     'jquery',
     'backbone',
     'underscore',
+    'nouislider',
     'data/ebolaData',
     'text!templates/mapTemplate.html',
     'text!templates/circleTemplate.html',
@@ -9,6 +10,7 @@ define([
     $,
     Backbone,
     _,
+    noUiSlider,
     EbolaData,
     templateHTML,
     circleTemplateHTML
@@ -24,8 +26,8 @@ define([
         circleTemplate: _.template(circleTemplateHTML),
 
         events: {
-            'mousemove #timeSlider': 'readSlider',
-            'change #timeSlider': 'readSlider',
+            'mousemove #slider-range': 'readSlider',
+            'change #slider-range': 'readSlider',
             'mouseleave .circlesContainer': 'hideTooltip',
             'click .caseToggle button': 'switchToggle',
             'click .playButton': 'autoPlayData'
@@ -287,16 +289,15 @@ define([
         },
 
         renderSlider: function(){
-            this.$timeSlider = $('#timeSlider');
-            this.$timeSlider.attr('max',this.allDays.length -1);
-            var ticksAmount = this.allDays.length-1;
-            for(i=1;i<ticksAmount;i++){
-                var tick = $('<div class="tick">');
-                tick.css('left',function(){
-                    return (100/ticksAmount)*i + "%";
-                });
-                $('.rangeTicks').append(tick);
-            }
+            $('#slider-range').noUiSlider({
+                start: [ _this.allDays.length-1 ],
+                step: 1,
+                range: {
+                    'min': [  0 ],
+                    'max': [ _this.allDays.length-1 ]
+                }
+            });
+            this.$timeSlider = $('#slider-range');
             if(this.predefinedValue){
                 this.$timeSlider.val(this.date);
             }else{
@@ -309,8 +310,9 @@ define([
         },
 
         readSlider: function(){
-            if(this.$timeSlider.val() !== this.date){
-                this.date = this.$timeSlider.val();
+            var newValue = parseInt(this.$timeSlider.val());
+            if(newValue !== this.date){
+                this.date = newValue;
                 this.drawCircles(this.allDays[this.date]);
                 this.fillMapData();
                 this.showSliderInput();
