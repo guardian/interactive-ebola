@@ -64,6 +64,13 @@ define([
                 this.showSliderInput();
             }
         },
+        checkToggle:function(){
+            var targetToggle = $('.toggleButton .active').data('name');
+            if(targetToggle != this.toggle){
+                $('.toggleButton button').removeClass('active');
+                $('.toggleButton button[data-name="' + this.toggle + '"').addClass('active');
+            }
+        },
 
         updateData:function(){
             _this = this;
@@ -74,6 +81,7 @@ define([
 
             this.createCircleData();
             this.renderSlider();
+            this.checkToggle();
         },
 
         fillMapData: function(){
@@ -97,15 +105,15 @@ define([
                 $.each(this.countriesByDay,function(i,country){
                     countryClass = country.countrycode.toUpperCase();
                     countryValue = country[currentDay][_this.toggle];
-                    $(".subunit." + countryClass)
-                    .css("fill", function(d, i) {
-                        if(countryValue === 0){
-                            return defaultMapColor;
-                        }else{
-                            return _this.retrieveColor( countryValue, maxNum, heatmapColors )
-                        }
-
-                    });
+                    $(".subunit." + countryClass).css("fill", 
+                        function(d, i) {
+                            if(countryValue === 0){
+                                return defaultMapColor;
+                            }else{
+                                return _this.retrieveColor( countryValue, maxNum, heatmapColors )
+                            }
+                        });
+                    
                 });
             }
 
@@ -113,15 +121,17 @@ define([
 
             function buildMapKey(colors, maxNum) {
                 var i;
-                var htmlString = "<h3>Number of " + _this.toggle + "</h3>";
-                var $key = $("#map-key"), bandWidth = 100 / colors.length;
+                var colorBands = "";
+                bandWidth = 100 / colors.length;
 
                 for (i = 0; i < colors.length; i++) {
-                    htmlString += "<div class='key-band' style='background: " + colors[i] + "; width: " + bandWidth + "%'></div>";
+                    var colorBand = "<div class='key-band' style='background: " + colors[i] + "; width: " + bandWidth + "%'></div>";
+                    colorBands += colorBand;
                 }
 
-                htmlString += "<p style='float: left'>0</p><p style='float: right'>" + maxNum + "</p>";
-                $key.html(htmlString);
+                $("#map-key h3").html('Number of ' + _this.toggle);
+                $("#map-key .color-bands").html(colorBands);
+                $("#map-key .key-max-num").html(maxNum);
             }
         },
 
@@ -221,15 +231,17 @@ define([
             }else if(allCountries<=8){
                 if(containerWidth>480){
                    countryColumns = 8;
-               }else{
+                }else{
                    countryColumns=5;
-               }
+                }
             }else if(allCountries>8){
-               if(containerWidth>480){
-                   countryColumns = 8;
-               }else{
-                   countryColumns=7;
-               }
+                if(containerWidth>640){
+                   countryColumns = 10;
+                }else if(containerWidth>480){
+                    countryColumns = 8;
+                }else{
+                    countryColumns=7;
+                }
             }
 
             var initialWidth = (containerWidth/countryColumns)-8;
@@ -306,8 +318,13 @@ define([
         },
 
         showSliderInput:function(){
+            var totalAmounts = 0;
+            _.each(this.countriesByDay,function(i,j){
+                var currentCountryNumber = i[this.allDays[this.date]][this.toggle];
+                totalAmounts+=currentCountryNumber;
+            },this);
             $('#currentSliderInput .currentDay span').html(this.allDays[this.date]);
-            $('#currentSliderInput .currentDeaths').html('Total ' + this.toggle + ' so far <span>' + this.allDays[this.date] + '</span>');
+            $('#currentSliderInput .currentDeaths').html('Total ' + this.toggle + ' so far <span>' + totalAmounts + '</span>');  
         },
 
         activeCountry: function(e){

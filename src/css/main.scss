@@ -50,7 +50,6 @@ body{
 	.caseToggle{
 		display:inline-block;
 		vertical-align: 2px;
-		margin-bottom:10px;
 		font-family:'Guardian Text Sans Web', Arial;
 		p{
 			margin:0;
@@ -59,6 +58,7 @@ body{
 		}
 		.toggleButton{
 			display:inline-block;
+			font-size:0;
 			button{
 				background:#F5F5F5;
 				height:28px;
@@ -148,33 +148,42 @@ body{
 		  bottom: 15px;
 		  left: 0;
 		  font-family: "Guardian Text Sans Web", Arial, sans-serif;
-		  font-size: 12px;
 		  color: #767676;
+			h3 {
+			  font-weight: bold;
+			  padding: 0 0 5px 0;
+			  margin: 0;
+			  font-size: 12px;
+			}
+			p {
+			  padding: 5px 0 0 0;
+			  margin: 0;
+			  font-size:12px;
+			}
+			.color-bands{
+				width:80%;
+				&:after{
+					content: '';
+					clear:both;
+					display: block;
+				}
+			}
+			.key-band {
+			  float: left;
+			  height: 15px;
+			}
 		}
 
-		#map-key h3 {
-		  font-weight: bold;
-		  padding: 0 0 5px 0;
-		  margin: 0;
-		}
-
-		#map-key p {
-		  padding: 5px 0 0 0;
-		  margin: 0;
-		}
-
-		.key-band {
-		  float: left;
-		  height: 15px;
-		}
+		
 
 
 	
 	}
 	.circlesContainer{
 		margin-top:10px;
-		margin-bottom:20px;
+		margin-bottom:0;
 		text-align: left;
+		font-size:0;
 		&:after{
 			clear:both;
 			display:block;
@@ -184,7 +193,7 @@ body{
 	.countryContainer{
 		display:inline-block;
 		text-align: center;
-		margin: 0 -1.5px 5px;
+		margin: 0;
 		vertical-align: top;
 		background:rgba(255,255,255,0.5);
 		padding:3px;
@@ -306,6 +315,7 @@ body{
 		}
 		&::-webkit-slider-thumb {
 		    -webkit-appearance: none;
+		    cursor:ew-resize;
 		    border: none;
 		    height:20px;
 		    width:20px;
@@ -416,7 +426,7 @@ body{
 		text-align: justify;
 		div{
 			display:inline-block;
-			min-width:150px;
+			min-width:100px;
 			line-height: 1em;
 			span{
 				display:block;
@@ -428,7 +438,10 @@ body{
 			font-size:16px;
 			line-height:1.5em;
 			border-top:none;
+
 			div{
+				min-width:none;
+				margin-right:40px;
 				span{
 					display:inline-block;
 				}
