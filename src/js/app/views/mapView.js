@@ -403,12 +403,11 @@ define([
             function startPlaying(){
                 var hasLooped = false;
                 var currentValue = _this.$timeSlider.val();
-                var maxSliderValue = parseInt(_this.$timeSlider.attr('max'));
+                var maxSliderValue = parseInt(_this.allDays.length-1);
                 var i = parseInt(currentValue);
                 if(i===maxSliderValue){
                     i = 0;
                 }
-
                 this.pauseData = false;
 
                 function toNextPoint() {
