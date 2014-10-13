@@ -23,7 +23,7 @@ body{
 @import 'reset';
 @import 'colours';
 @import 'table';
-@import 'fonts';
+// @import 'fonts';
 
 .element-interactive{
 	margin:0;
@@ -238,8 +238,8 @@ body{
 		position: relative;
 	}
 	.playButton{
-		width:44px;
-		height:44px;
+		width:32px;
+		height:32px;
 		border-radius:99999px;
 		background:#333;
 		position:absolute;
@@ -252,25 +252,25 @@ body{
 			width: 0;
 			height: 0;
 			border-style: solid;
-			border-width: 0.5em 0 0.5em 1.2em;
+			border-width: 0.4em 0 0.4em 0.96em;
 			border-color: transparent transparent transparent #f1f1f1;
 			-moz-transform: scale(0.99999);
 			top: 50%;
 			left: 0;
-			margin-top: -.5em;
-			margin-left: 0.9em;
+			margin-top: -.4em;
+			margin-left: 0.6em;
 		}
 		&[data-status="playing"]:before {
 			content:'';
 			position: absolute;
 			display: block;
-			height:18px;
-			width:3px;
-			border-right:5px solid;
-			border-left:5px solid;
+			height:13px;
+			width:2px;
+			border-right:4px solid;
+			border-left:4px solid;
 			border-color:#f1f1f1;
-			left:15px;
-			top:13px;
+			left:11px;
+			top:10px;
 		}
 		&:hover{
 			background:#ffbb00;
@@ -283,9 +283,9 @@ body{
 		}
 	}
 	.rangeContainer{
-		margin-left:64px;
+		margin-left:42px;
 		box-sizing:border-box;
-		margin-right:20px;
+		margin-right:0;
 		top:4px;
 		position: relative;
 	}
@@ -294,60 +294,60 @@ body{
 		/* fix for FF unable to apply focus style bug  */
 		// border: 1px solid white; 
 		color:#000;
-		margin:20px 0 0;
+		margin:9px 0 0;
 		-webkit-appearance: none;
 		&::-webkit-slider-runnable-track {
 		    width: 100%;
-		    height: 3px;
+		    height:8px;
 		    color:#000;
-		    background: #aaa;
-		    border: none;
-		    border-radius: 3px;
+		    background:#F5F5F5;
+		    border: 1px solid #DCDCDC;
+		    border-radius:4px;
 		}
 		&::-webkit-slider-thumb {
 		    -webkit-appearance: none;
 		    border: none;
-		    height: 24px;
-		    width: 24px;
-		    border-radius: 50%;
+		    height:20px;
+		    width:20px;
+		    border-radius:4px;
 		    background: #333;
-		    margin-top: -12px;
+		    margin-top: -8px;
 		}
 		&:focus{
 			outline:none;
 		}
 		&:focus::-webkit-slider-runnable-track {
-		    background: #999;
+		    background: #dcdcdc;
 		}
 
 		&::-moz-range-track {
 		    width: 100%;
-		    height: 3px;
-		    background: #aaa;
-		    border: none;
-		    border-radius: 3px;
+		    height:8px;
+		    background:#F5F5F5;
+		    border: 1px solid #DCDCDC;
+		    border-radius:4px;
 		}
 		&::-moz-range-thumb {
 		    border: none;
-		    height: 24px;
-		    width: 24px;
-		    border-radius: 50%;
+		    height:20px;
+		    width:20px;
+		    border-radius:4px;
 		    background: #333;
-		    margin-top: -17px;
+		    margin-top: -8px;
 		}
 		&:-moz-focusring{
 		    outline: 1px solid white;
 		    outline-offset: -1px;
 		}
 		&:focus::-moz-range-track {
-		    background: #999;
+		    background: #dcdcdc;
 		}
 		&::-ms-track {
 		    width: 100%;
-		    height: 3px;
-		    background: #aaa;
-		    border: none;
-		    border-radius: 10px;
+		    height:8px;
+		    background:#F5F5F5;
+		    border: 1px solid #DCDCDC;
+		    border-radius: 4px;
 		}
 		&::-ms-fill-lower {
 		    outline: none;
@@ -356,17 +356,14 @@ body{
 		}
 		&::-ms-thumb {
 		    border: none;
-		    height: 24px;
-		    width: 24px;
-		    border-radius: 50%;
+		    height:20px;
+		    width:20px;
+		    border-radius:4px;
 		    background: #333;
-		    margin-top:-17px;
+		    margin-top:8px;
 		}
 		&:focus::-ms-track {
-		    background: #999;
-		}
-		&:focus::-ms-fill-lower {
-		    background: #888;
+		    background: #dcdcdc;
 		}
 	}
 	#timeSlider:before{
@@ -377,8 +374,9 @@ body{
 		height: 6px;
 		background: #aaa;
 		top: 14px;
-		left:0;
+		left:9px;
 		z-index:-1;
+		display: none;
 	}
 	#timeSlider:after{
 		content: '';
@@ -388,10 +386,12 @@ body{
 		height: 6px;
 		background: #aaa;
 		top: 14px;
-		right:0;
+		right:9px;
 		z-index:-1;
+		display: none;
 	}
 	.rangeTicks{
+		display: none;
 		width:100%;
 		border-left:12px solid transparent;
 		border-right:12px solid transparent;
@@ -408,9 +408,32 @@ body{
 		}
 	}
 	#currentSliderInput{
-		margin-top:20px;
-		text-align: center;
+		font-family:'Guardian Text Sans Web', Arial;
+		padding-top:7px;
+		margin-top:5px;
+		font-size:14px;
 		font-weight:bold;
+		text-align: justify;
+		div{
+			display:inline-block;
+			min-width:150px;
+			line-height: 1em;
+			span{
+				display:block;
+				font-weight:normal;
+				margin-top:0.2em;
+			}
+		}
+		@media(min-width:480px){
+			font-size:16px;
+			line-height:1.5em;
+			border-top:none;
+			div{
+				span{
+					display:inline-block;
+				}
+			}
+		}
 	}
 
 

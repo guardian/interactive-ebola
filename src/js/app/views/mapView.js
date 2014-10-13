@@ -306,7 +306,8 @@ define([
         },
 
         showSliderInput:function(){
-            $('#currentSliderInput').html("All " + this.toggle + " until: " + this.allDays[this.date]);
+            $('#currentSliderInput .currentDay span').html(this.allDays[this.date]);
+            $('#currentSliderInput .currentDeaths').html('Total ' + this.toggle + ' so far <span>' + this.allDays[this.date] + '</span>');
         },
 
         activeCountry: function(e){
