@@ -23,7 +23,7 @@ body{
 @import 'reset';
 @import 'colours';
 @import 'table';
-// @import 'fonts';
+@import 'fonts';
 
 .element-interactive{
 	margin:0;
@@ -68,6 +68,7 @@ body{
 				font-family:'Guardian Text Sans Web', Arial;
 				line-height:1em;
 				cursor:pointer;
+				display:inline-block;
 				&:first-child{
 					border-radius:99999px 0 0 99999px;
 					border-top:1px solid #DCDCDC;
@@ -102,7 +103,9 @@ body{
 		position: relative;
 		width: 100%;
 		vertical-align: middle;
-		
+		svg{
+			max-height:100%;
+		}
 		path{
 			fill:#eee;
 			stroke-width:1.5;
