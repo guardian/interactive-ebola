@@ -17,7 +17,7 @@
 
 $c-brand: guss-color(guardian-brand);
 body{
-	margin:10px;
+	margin:0;
 }
 
 @import 'reset';
@@ -105,6 +105,7 @@ body{
 		position: relative;
 		width: 100%;
 		vertical-align: middle;
+        overflow: hidden;
 		
 		path{
 			fill:#eee;
