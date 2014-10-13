@@ -322,7 +322,7 @@ define([
             var y;
             var w;
             var h;
-            var map = $("#map");
+            var map = document.querySelector("#map");
             var name;
             var override;
 
@@ -332,15 +332,13 @@ define([
 
             if ( override === null ) {
                 id = id.toUpperCase();
-                offset = map.offset();
-                w = map.width();
+                offset = map.getBoundingClientRect();
+                w = map.width;
                 h = map.height;
-                map = document.getElementById("map");
-                element = map.getElementsByClassName(id)[0];
+                element = document.querySelector('#map .' + id);
                 rect = element.getBoundingClientRect();
                 x = rect.left - offset.left + rect.width / 2;
                 y = rect.top - offset.top + rect.height / 2;
-
             } else {
                 x = override.x + "%";
                 y = override.y + "%";
