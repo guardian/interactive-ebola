@@ -129,7 +129,7 @@ define([
                     colorBands += colorBand;
                 }
 
-                $("#map-key h3").html('Number of ' + _this.toggle);
+                // $("#map-key h3").html('Number of ' + _this.toggle);
                 $("#map-key .color-bands").html(colorBands);
                 $("#map-key .key-max-num").html(maxNum);
             }
