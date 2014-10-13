@@ -26,8 +26,6 @@ define([
         circleTemplate: _.template(circleTemplateHTML),
 
         events: {
-            'mousemove #slider-range': 'readSlider',
-            'change #slider-range': 'readSlider',
             'mouseleave .circlesContainer': 'hideTooltip',
             'click .caseToggle button': 'switchToggle',
             'click .playButton': 'autoPlayData'
@@ -297,6 +295,9 @@ define([
                     'max': [ _this.allDays.length-1 ]
                 }
             });
+
+            $('#slider-range').on('slide', _.bind(this.readSlider, this));
+
             this.$timeSlider = $('#slider-range');
             if(this.predefinedValue){
                 this.$timeSlider.val(this.date);
