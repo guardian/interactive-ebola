@@ -3,6 +3,7 @@ define([
     'backbone',
     'underscore',
     'nouislider',
+    'numeral',
     'data/ebolaData',
     'text!templates/mapTemplate.html',
     'text!templates/circleTemplate.html',
@@ -11,6 +12,7 @@ define([
     Backbone,
     _,
     noUiSlider,
+    numeral,
     EbolaData,
     templateHTML,
     circleTemplateHTML
@@ -145,9 +147,9 @@ define([
         getHeatmapColors:function() {
             var arr = [];
             if (_this.toggle == "cases") {
-                arr = ["rgb(195,247,255)", "rgb(150,242,255)", "rgb(112,223,239)", "rgb(79,190,206)", "rgb(49,160,176)", "rgb(17,128,144)", "rgb(1,94,108)", "rgb(1,59,68)"];
+                arr = ["rgb(195,247,255)", "rgb(112,223,239)", "rgb(79,190,206)", "rgb(17,128,144)", "rgb(1,94,108)"];
             } else { // deaths
-                arr = ["rgb(255,226,208)", "rgb(255,204,172)", "rgb(255,172,122)", "rgb(255,129,52)", "rgb(228,97,18)", "rgb(183,70,1)", "rgb(128,49,1)", "rgb(82,32,1)"]
+                arr = ["rgb(255,226,208)", "rgb(255,172,122)", "rgb(255,129,52)", "rgb(228,97,18)", "rgb(128,49,1)"]
             }
             //"rgb(243,253,255)", "rgb(255,249,245)",
             return arr;
@@ -244,7 +246,7 @@ define([
                 }
             }
 
-            var initialWidth = (containerWidth/countryColumns)-8;
+            var initialWidth = (containerWidth/countryColumns)-2;
             
             // var countriesByDaySorted = _.sortBy(_this.countriesByDay, function(num){ return num[lastDay][_this.toggle] });
             $('.circlesContainer').html('');
@@ -262,12 +264,13 @@ define([
                         isEmpty = true;
                     }
                 }
+                console.log();
                 var circleHTML = _this.circleTemplate({
                     country : country.country,
                     currentToggle : _this.toggle,
                     maxWidth : maxCircleWidth,
                     circleWidth : circleWidth,
-                    circleValue : circleValue,
+                    circleValue : numeral(circleValue).format('0,0'),
                     isEmpty: isEmpty,
                     maxHeight: initialWidth,
                     countryCode: country.countrycode,
@@ -327,7 +330,7 @@ define([
                 totalAmounts+=currentCountryNumber;
             },this);
             $('#currentSliderInput .currentDay span').html(this.allDays[this.date]);
-            $('#currentSliderInput .currentDeaths').html('Total ' + this.toggle + ' so far <span>' + totalAmounts + '</span>');  
+            $('#currentSliderInput .currentDeaths').html('Total ' + this.toggle + ' so far <span>' + numeral(totalAmounts).format('0,0') + '</span>');  
         },
 
         activeCountry: function(e){
@@ -379,7 +382,6 @@ define([
                         x: offsetCountry.percentageoffsetx,
                         y: offsetCountry.percentageoffsety
                     };
-                    console.log("yes");
                 } 
             });
              return obj;
