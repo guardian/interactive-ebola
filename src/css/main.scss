@@ -40,8 +40,8 @@ body{
 		margin-bottom:5px;
 		
 		.headerBorder{
-			border-top:3px solid #52c6d8;
-			width:50%;
+			border-top:4px solid #52c6d8;
+			width:70px;
 			margin-bottom:4px;
 		}
 	}
@@ -129,10 +129,10 @@ body{
 
 		#map-tooltip {
 			position: absolute;
-			height: 40px;
-			margin-top: -40px;
+			height: 30px;
+			margin-top: -30px;
 			margin-left: -1px;
-			border-left: 2px dotted #333;
+			border-left: 1px dotted #333;
 			text-align: center;
 			display: none;
 		}
@@ -212,7 +212,7 @@ body{
 		margin: 0;
 		vertical-align: top;
 		background:rgba(255,255,255,0.5);
-		padding:0px;
+		padding:0 0 5px;
 		z-index:1;
 		border:1px solid transparent;
 		position: relative;
@@ -333,6 +333,7 @@ body{
 			box-shadow:none;
 			border:none;
 			left:-10px;
+			cursor:ew-resize;
 			&:before,&:after{
 				display:none;
 				content:'';
