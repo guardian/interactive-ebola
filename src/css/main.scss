@@ -28,8 +28,9 @@ body{
 
 .element-interactive{
 	margin:0;
-	font-family:"Guardian Egyptian Web";
+	font-family:"Guardian Egyptian Web", Georgia,serif;
 	-webkit-font-smoothing: antialiased;
+	color:#333;
 
 	h1{
 		font-size:24px;
@@ -223,6 +224,7 @@ body{
 			&:before{
 				content:attr(data-countrycode);
 				text-transform: uppercase;
+				color:#333;
 			}
 		}
 		h3{
@@ -230,6 +232,7 @@ body{
 			font-family:'Guardian Text Sans Web', Arial;
 			margin:0;
 			font-weight:normal;
+			color:#333;
 		}
 		.circleContainer{
 			margin:0 auto;
