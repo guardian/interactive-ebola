@@ -71,7 +71,7 @@ define([
             if (data) {
                 this.calcScale(data);
             }
-
+console.log(data);
             this.$el.html(this.template({ data: data }));
             return this;
         }

@@ -21,7 +21,7 @@
             <% if (typeof data === 'undefined') { %>
                 <p>Loading...</p>
             <% } else { _.each(data, function(row) { %>
-                <tr>
+                <tr class="year-<%= row.year %>">
                     <td class="ebola-year"> <span><%= row.year %> </span></td>
                     <td class="ebola-countries"> <%= row.countries %> </td>
                     <td class="ebola-size">

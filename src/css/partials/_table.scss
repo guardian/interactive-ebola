@@ -21,8 +21,8 @@ $smallWidth: 360px;
 
     h1 {
         color: $guDarkBlue;
-        border-top: 6px solid $guLightBlue;
-        width: 108px;
+        border-top: 4px solid $guLightBlue;
+        width: 70px !important;
         overflow: visible;
         display: inline-block;
         white-space: nowrap;
@@ -245,8 +245,8 @@ $smallWidth: 360px;
         margin: 0 auto;
     }
 
-    .ebola-table tr .ebola-cases,
-    .ebola-table tr .ebola-deaths {
+    .ebola-table .ebola-cases,
+    .ebola-table .ebola-deaths {
         position: absolute;
         top: -1em;
         width: 100%;
@@ -256,62 +256,32 @@ $smallWidth: 360px;
         left: 0;
         top: 18%;
         font-size: 13px;
-    }
-
-
-
-    .ebola-table tr:first-child .ebola-cases,
-    .ebola-table tr:first-child .ebola-deaths,
-    .ebola-table tr:last-child .ebola-cases,
-    .ebola-table tr:last-child .ebola-deaths {
         display: block;
     }
 
-    .ebola-table tr .ebola-cases,
-    .ebola-table tr .ebola-cases,
-    .ebola-table tr .ebola-cases {
+    .ebola-table .ebola-cases {
         margin-top: -1em;
     }
 
-    .ebola-table tr:last-child td.ebola-deaths,
-    .ebola-table tr:last-child td.ebola-cases {
+    .ebola-table tr:last-child .ebola-deaths,
+    .ebola-table tr:last-child .ebola-cases {
         top: -1em;
     }
 
-    @media (max-width: $smallWidth) {
-        .ebola-table tr:nth-child(5n+5) .ebola-cases,
-        .ebola-table tr:nth-child(5n+5) .ebola-deaths {
-            display: block;
-        }
-    }
-
-
-    @media (min-width: $smallWidth) and (max-width: $medWidth) {
-        .ebola-table tr .ebola-cases,
-        .ebola-table tr .ebola-deaths {
-            font-size: 13px;
-        }
-
-        .ebola-table tr:nth-child(3n+3) .ebola-cases,
-        .ebola-table tr:nth-child(3n+3) .ebola-deaths {
-            display: block;
-        }
-    }
-
-
-    @media (min-width: $medWidth) {
-        .ebola-table tr:nth-child(2n+3) .ebola-cases,
-        .ebola-table tr:nth-child(2n+3) .ebola-deaths {
-            font-size: 16px;
-            display: block;
-        }
-    }
-
-    @media (min-width: $wideWidth) {
-        .ebola-table tr .ebola-cases,
-        .ebola-table tr .ebola-deaths {
-            display: block;
-            font-size: 16px;
+    @media (max-width: $medWidth) {
+        .year-1977 .ebola-cases, .year-1977 .ebola-deaths,
+        .year-1979 .ebola-cases, .year-1979 .ebola-deaths,
+        .year-1994 .ebola-cases, .year-1994 .ebola-deaths,
+        .year-1996 .ebola-cases, .year-1996 .ebola-deaths,
+        .year-2001 .ebola-cases, .year-2001 .ebola-deaths,
+        .year-2001\/02 .ebola-cases, .year-2001\/02 .ebola-deaths,
+        .year-2003 .ebola-cases, .year-2003 .ebola-deaths,
+        .year-2004 .ebola-cases, .year-2004 .ebola-deaths,
+        .year-2005 .ebola-cases, .year-2005 .ebola-deaths,
+        .year-2008 .ebola-cases, .year-2008 .ebola-deaths,
+        .year-2011 .ebola-cases, .year-2011 .ebola-deaths,
+        .year-2012 .ebola-cases, .year-2012 .ebola-deaths{
+            display: none;
         }
     }
 
