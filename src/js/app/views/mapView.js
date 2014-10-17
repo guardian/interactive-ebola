@@ -42,7 +42,7 @@ define([
 
         initialize: function(options) {
             if(options.date){
-                this.date = options.date;
+                this.date = options.date - 1;
                 this.predefinedValue = true;
             }else{
                 this.predefinedValue = false;
