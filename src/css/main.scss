@@ -190,11 +190,6 @@ body{
 			  height: 10px;
 			}
 		}
-
-		
-
-
-	
 	}
 	.circlesContainer{
 		margin-top:10px;
@@ -376,7 +371,11 @@ body{
 			}
 		}
 	}
-
+	.footnote{
+		font-size:11px;
+		font-family:'Guardian Text Sans Web', Arial;
+		color:#555;
+	}
 
 
 	@media(min-width:570px){
