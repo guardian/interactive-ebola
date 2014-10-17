@@ -31,7 +31,9 @@ body{
 	font-family:"Guardian Egyptian Web", Georgia,serif;
 	-webkit-font-smoothing: antialiased;
 	color:#333;
-
+	.mapView{
+		max-width:620px;
+	}
 	h1{
 		font-size:24px;
 		color:#005689;

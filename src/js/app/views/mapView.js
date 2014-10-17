@@ -232,9 +232,9 @@ define([
                 }
             }else if(allCountries<=8){
                 if(containerWidth>480){
-                   countryColumns = 8;
+                   countryColumns = allCountries;
                 }else{
-                   countryColumns=5;
+                   countryColumns=allCountries;
                 }
             }else if(allCountries>8){
                 if(containerWidth>640){
