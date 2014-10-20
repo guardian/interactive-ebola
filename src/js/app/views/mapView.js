@@ -33,7 +33,7 @@ define([
             'click .playButton': 'autoPlayData'
         },
 
-        toggle: "deaths",
+        toggle: "cases",
 
         colors:{
             "deaths": "#E3672A",
