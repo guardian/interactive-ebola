@@ -68,9 +68,9 @@ define([
         },
         checkToggle:function(){
             var targetToggle = $('.toggleButton .active').data('name');
-            if(targetToggle != this.toggle){
+            if(targetToggle !== this.toggle){
                 $('.toggleButton button').removeClass('active');
-                $('.toggleButton button[data-name="' + this.toggle + '"').addClass('active');
+                $('.toggleButton button[data-name=' + this.toggle + ']').addClass('active');
             }
         },
 
@@ -264,7 +264,6 @@ define([
                         isEmpty = true;
                     }
                 }
-                console.log();
                 var circleHTML = _this.circleTemplate({
                     country : country.country,
                     currentToggle : _this.toggle,
