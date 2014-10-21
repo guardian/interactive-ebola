@@ -299,6 +299,8 @@ define([
             });
 
             $('#slider-range').on('slide', _.bind(this.readSlider, this));
+            var lastReportDate = this.allDays[this.allDays.length -1];
+            $('.footnote .reportDate').html(lastReportDate)
 
             this.$timeSlider = $('#slider-range');
             if(this.predefinedValue){
