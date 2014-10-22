@@ -133,6 +133,7 @@ define([
                             if(countryValue === 0){
                                 return defaultMapColor;
                             }else{
+                                this.setAttribute('class', this.getAttribute('class') + 'infected');
                                 return _this.retrieveColor( countryValue, maxNum, heatmapColors)
                             }
                         });
@@ -361,8 +362,13 @@ define([
                 return;
             }
 
-            var id = e.target.className;
-            var element;
+            var id = e.data.countrycode.toUpperCase();
+            var name = e.data.country;
+            this.showToolTip(id, name); 
+        },
+
+        showToolTip: function(id, countryName) {
+             var element;
             var rect;
             var offset;
             var x;
@@ -373,14 +379,12 @@ define([
             var name;
             var override;
 
-            name = e.data.country;
-            id = e.data.countrycode.toUpperCase();
 
             var mapContainer = $('#map').offset();
             var elm = document.querySelector('.pin.'+id);
             var pos = elm.getBoundingClientRect();
             $("#map-tooltip").css({top: pos.top - mapContainer.top, left: pos.left - mapContainer.left}).show();
-            $("#map-tooltip-inner").html("<p>" + name + "</p>");
+            $("#map-tooltip-inner").html("<p>" + countryName + "</p>");
 
         },
 
@@ -505,7 +509,20 @@ define([
                 .enter().append('path')
                 .attr('class', _.bind(this.setClass, this))
                 .attr('id', function(d) { return d.id; })
-                .attr('d', path);
+                .attr('d', path)
+                .on('mouseover', _.bind(function(d) {
+                    var el = document.querySelector('#'+d.id.toUpperCase());
+                    if (el.getAttribute('class').search('infected') === -1) {
+                        return;
+                    }
+
+                    this.showToolTip(d.id, d.properties.name);
+                    $('.countryContainer.'+ d.id.toLowerCase()).addClass('active');
+                }, this))
+                .on('mouseleave', _.bind(function(d) {
+                    this.hideTooltip();
+                    $('.countryContainer.'+ d.id.toLowerCase()).removeClass('active');
+                }, this));
             
             // Add pinss
             this.svg.selectAll('.pin')

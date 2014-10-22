@@ -167,6 +167,7 @@ body{
 			border-left: 1px dotted #333;
 			text-align: center;
 			display: none;
+            pointer-events:none;
 		}
 
 		#map-tooltip-inner {
@@ -174,6 +175,7 @@ body{
 			transform:translateX(-50%);
 			margin-top: -5px;
 			text-align: center;
+            pointer-events:none;
 		}
 
 		#map-tooltip-inner p {
@@ -292,7 +294,8 @@ body{
 				background:#aaa;
 			}
 		}
-		&:hover{
+		&:hover,
+        &.active {
 			border:1px solid #aaa;
 			box-shadow:0 1px 3px rgba(0,0,0,0.2);
 			z-index:2;
