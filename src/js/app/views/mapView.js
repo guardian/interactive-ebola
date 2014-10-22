@@ -37,7 +37,8 @@ define([
         events: {
             'mouseleave .circlesContainer': 'hideTooltip',
             'click .caseToggle button': 'switchToggle',
-            'click .playButton': 'autoPlayData'
+            'click .playButton': 'autoPlayData',
+            'click #map-toggle': 'toggleZoom'
         },
 
         toggle: "cases",
@@ -63,6 +64,14 @@ define([
 
             // Parse JSON
             this.mapJSON = JSON.parse(mapdata);
+            
+            // Map zoom
+            this.isZoomed = false;
+        },
+
+        toggleZoom: function() {
+            this.isZoomed = !this.isZoomed;
+            this.fillMapData();
         },
 
         switchToggle: function(e){
@@ -467,14 +476,23 @@ define([
             var subunits = topojson.feature(
                 this.mapJSON, this.mapJSON.objects.countries);
             var scale = 100 * dimensions.scale;
+            var translate = [dimensions.width / 2, dimensions.height / 2];
+            var center = [0, 0];
+            
+            // Center and zoom
+            if (this.isZoomed) {
+                scale *= 7;
+                center = [-3.5, 10.5];
+            }
 
             this.$('#mapContainer').empty();
 
             // Setup map
             var projection = d3.geo.robinson()
                 .scale(scale)
-                .translate([dimensions.width / 2, dimensions.height / 2]);
-
+                .center(center)
+                .translate(translate);
+            
             var path = d3.geo.path().projection(projection);
             this.svg = d3.select(this.$('#mapContainer')[0]).append('svg')
                 .attr('id', 'map')
