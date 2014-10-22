@@ -362,6 +362,7 @@ define([
                 return;
             }
 
+            $('.countryContainer').removeClass('active');
             var id = e.data.countrycode.toUpperCase();
             var name = e.data.country;
             this.showToolTip(id, name); 
@@ -515,8 +516,9 @@ define([
                     if (el.getAttribute('class').search('infected') === -1) {
                         return;
                     }
-
+                    
                     this.showToolTip(d.id, d.properties.name);
+                    $('.countryContainer').removeClass('active');
                     $('.countryContainer.'+ d.id.toLowerCase()).addClass('active');
                 }, this))
                 .on('mouseleave', _.bind(function(d) {
