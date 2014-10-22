@@ -126,6 +126,11 @@ body{
             fill: red;
         }
 
+        .pin {
+            //display: none;
+            visibility: hidden;
+        }
+
 		#mapContainer{
 			width:100%;
 			height:0;

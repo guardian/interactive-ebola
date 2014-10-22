@@ -364,26 +364,12 @@ define([
             var override;
 
             name = e.data.country;
-            id = e.data.countrycode;
-            override = this.checkForOffsetOverride(id);
+            id = e.data.countrycode.toUpperCase();
 
-            if ( override === null ) {
-                id = id.toUpperCase();
-                offset = map.getBoundingClientRect();
-                w = map.width;
-                h = map.height;
-                element = document.querySelector('#map #' + id);
-                rect = element.getBoundingClientRect();
-                x = rect.left - offset.left + rect.width / 2;
-                y = rect.top - offset.top + rect.height / 2;
-            } else {
-                x = override.x + "%";
-                y = override.y + "%";
-            }
-
-            console.log(x, y, rect);
-
-            $("#map-tooltip").css({top: y, left: x}).show();
+            var mapContainer = $('#map').offset();
+            var elm = document.querySelector('.pin.'+id);
+            var pos = elm.getBoundingClientRect();
+            $("#map-tooltip").css({top: pos.top - mapContainer.top, left: pos.left - mapContainer.left}).show();
             $("#map-tooltip-inner").html("<p>" + name + "</p>");
 
         },
@@ -501,6 +487,25 @@ define([
                 .attr('class', _.bind(this.setClass, this))
                 .attr('id', function(d) { return d.id; })
                 .attr('d', path);
+            
+            // Add pinss
+            this.svg.selectAll('.pin')
+                .data(subunits.features)
+                .enter().append('circle')
+                .attr('r', 1)
+                .attr('class', function(d) {
+                    return 'pin ' + d.id;
+                })
+                .attr('transform', function(d) {
+                    var loc = [
+                        d.properties.longitude,
+                        d.properties.latitude
+                    ];
+                    if (!loc[0] && !loc[1]) {
+                        return;
+                    }
+                    return 'translate(' + projection(loc) + ')';
+                });
 
             this.oldfillMapData();
         },
