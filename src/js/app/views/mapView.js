@@ -147,9 +147,9 @@ define([
         getHeatmapColors:function() {
             var arr = [];
             if (_this.toggle == "cases") {
-                arr = ["rgb(195,247,255)", "rgb(112,223,239)", "rgb(79,190,206)", "rgb(17,128,144)", "rgb(1,94,108)"];
+                arr = ["#69d1ca", "#4dc6dd", "#1387ba", "#005689", "#000"];
             } else { // deaths
-                arr = ["rgb(255,226,208)", "rgb(255,172,122)", "rgb(255,129,52)", "rgb(228,97,18)", "rgb(128,49,1)"]
+                arr = ["#ffb900", "#ff9b0b", "#ea6911", "#b41700", "#000"]
             }
             //"rgb(243,253,255)", "rgb(255,249,245)",
             return arr;
@@ -330,8 +330,8 @@ define([
                 var currentCountryNumber = i[this.allDays[this.date]][this.toggle];
                 totalAmounts+=currentCountryNumber;
             },this);
-            $('#currentSliderInput .currentDay span').html(this.allDays[this.date]);
-            $('#currentSliderInput .currentDeaths').html('Total ' + this.toggle + ' so far <span>' + numeral(totalAmounts).format('0,0') + '</span>');  
+            $('#currentSliderInput .currentDay').html(this.allDays[this.date]);
+            $('#currentSliderInput .currentDeaths').html('<strong>' + numeral(totalAmounts).format('0,0') + '</strong> total number of ' + this.toggle);  
         },
 
         activeCountry: function(e){
