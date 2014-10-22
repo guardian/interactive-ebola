@@ -54,7 +54,10 @@ module.exports = function(grunt) {
               'iframeMessenger'       : '../libs/iframeMessenger',
               'numeral'               : '../libs/numeral',
               'jQuery.XDomainRequest' : '../libs/jQuery.XDomainRequest',
-              'nouislider'            : '../libs/nouislider'
+              'nouislider'            : '../libs/nouislider',
+              'd3'                    : '../libs/d3',
+              'd3.projections'        : '../libs/d3.geo.projection.v0',
+              'topojson'              : '../libs/topojson'
           },
           optimize: 'none',
           inlineText: true,

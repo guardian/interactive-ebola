@@ -4,18 +4,25 @@ define([
     'underscore',
     'nouislider',
     'numeral',
+    'd3',
+    'topojson',
     'data/ebolaData',
     'text!templates/mapTemplate.html',
     'text!templates/circleTemplate.html',
+    'text!data/world-110m.json',
+    'd3.projections'
 ], function(
     $,
     Backbone,
     _,
     noUiSlider,
     numeral,
+    d3,
+    topojson,
     EbolaData,
     templateHTML,
-    circleTemplateHTML
+    circleTemplateHTML,
+    mapdata
 ) {
     'use strict';
 
@@ -53,6 +60,9 @@ define([
             // Resize
             var limtedResize = _.debounce(this.render, 200);
             $(window).resize(_.bind(limtedResize, this));
+
+            // Parse JSON
+            this.mapJSON = JSON.parse(mapdata);
         },
 
         switchToggle: function(e){
@@ -66,6 +76,7 @@ define([
                 this.showSliderInput();
             }
         },
+
         checkToggle:function(){
             var targetToggle = $('.toggleButton .active').data('name');
             if(targetToggle !== this.toggle){
@@ -84,9 +95,10 @@ define([
             this.createCircleData();
             this.renderSlider();
             this.checkToggle();
+            
         },
 
-        fillMapData: function(){
+        oldfillMapData: function(){
             var i;
             var currentDay = this.allDays[this.date];
             var dataByDay = _.groupBy(this.countryData,function(i){
@@ -103,11 +115,11 @@ define([
             var countryClass, numCases;
 
             if (currentData != undefined) {
-               $(".subunit").css("fill", defaultMapColor); // Reset colors !!
+               $(".country").css("fill", defaultMapColor); // Reset colors !!
                 $.each(this.countriesByDay,function(i,country){
                     countryClass = country.countrycode.toUpperCase();
                     countryValue = country[currentDay][_this.toggle];
-                    $(".subunit." + countryClass).css("fill", 
+                    $("#" + countryClass).css("fill", 
                         function(d, i) {
                             if(countryValue === 0){
                                 return defaultMapColor;
@@ -360,7 +372,7 @@ define([
                 offset = map.getBoundingClientRect();
                 w = map.width;
                 h = map.height;
-                element = document.querySelector('#map .' + id);
+                element = document.querySelector('#map #' + id);
                 rect = element.getBoundingClientRect();
                 x = rect.left - offset.left + rect.width / 2;
                 y = rect.top - offset.top + rect.height / 2;
@@ -368,6 +380,8 @@ define([
                 x = override.x + "%";
                 y = override.y + "%";
             }
+
+            console.log(x, y, rect);
 
             $("#map-tooltip").css({top: y, left: x}).show();
             $("#map-tooltip-inner").html("<p>" + name + "</p>");
@@ -439,12 +453,74 @@ define([
             }
         },
 
+        getDimensions: function() {
+            var width = $('.mapView').width();
+            var ratio = 0.5;
+            return {
+                width: width,
+                height: width * ratio,
+                scale: (width / 620)
+            };
+        },
+
+        setClass: function(data) {
+            var classText = 'country ';
+            var country = _.find(this.currentData, function(date) {
+                return data.id.toUpperCase() === date.countrycode.toUpperCase();
+            });
+
+            if (country) {
+                classText += 'infected';
+            }
+            return classText;
+        },
+
+        fillMapData: function() {
+            var dimensions = this.getDimensions();
+            var subunits = topojson.feature(
+                this.mapJSON, this.mapJSON.objects.countries);
+            var scale = 100 * dimensions.scale;
+
+            this.$('#mapContainer').empty();
+
+            // Setup map
+            var projection = d3.geo.robinson()
+                .scale(scale)
+                .translate([dimensions.width / 2, dimensions.height / 2]);
+
+            var path = d3.geo.path().projection(projection);
+            this.svg = d3.select(this.$('#mapContainer')[0]).append('svg')
+                .attr('id', 'map')
+                .attr('width', dimensions.width)
+                .attr('height', dimensions.height);
+
+            // Add countries
+            this.svg.selectAll('.country')
+                .data(subunits.features)
+                .enter().append('path')
+                .attr('class', _.bind(this.setClass, this))
+                .attr('id', function(d) { return d.id; })
+                .attr('d', path);
+
+            this.oldfillMapData();
+        },
+
         render: function() {
-            var data = EbolaData.getSheet('Historic cases');
+            //var data = EbolaData.getSheet('Historic cases');
+            var data = EbolaData.getSheet('cases by date');
             if (data && data.length > 0) {
                 this.$el.html(this.template());
                 this.updateData();
+            } else {
+                return this;
             }
+
+            var currentDay = this.allDays[this.date];
+            var dataByDay = _.groupBy(this.countryData,function(i){
+                return i.date;
+            });
+
+            this.currentData = dataByDay[currentDay];
 
             return this;
         }
