@@ -124,16 +124,14 @@ define([
             function buildMapKey(colors, maxNum) {
                 var i;
                 var colorBands = "";
-                bandWidth = 100 / colors.length;
-
+                var step = Math.ceil(maxNum/5);
+                var previousStep = 1;
                 for (i = 0; i < colors.length; i++) {
-                    var colorBand = "<div class='key-band' style='background: " + colors[i] + "; width: " + bandWidth + "%'></div>";
+                    var colorBand = "<div class='key-band'><span class='legend-key' style='background:" + colors[i] + ";'></span><span class='legend-number'>" + numeral(previousStep).format('0,0') + "-" + numeral(step * (i+1)).format('0,0') + "</span></div>";
+                    previousStep = step*(i+1);
                     colorBands += colorBand;
                 }
-
-                // $("#map-key h3").html('Number of ' + _this.toggle);
                 $("#map-key .color-bands").html(colorBands);
-                $("#map-key .key-max-num").html(numeral(maxNum).format('0,0'));
             }
         },
 

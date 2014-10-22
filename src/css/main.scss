@@ -162,10 +162,9 @@ body{
 		}
 
 		#map-key {
-		  width: 20%;
 		  position: absolute;
-		  bottom: 15px;
-		  left: 0;
+		  bottom: 10px;
+		  left: 10px;
 		  font-family: "Guardian Text Sans Web", Arial, sans-serif;
 		  color: #767676;
 			h3 {
@@ -188,8 +187,17 @@ body{
 				}
 			}
 			.key-band {
-			  float: left;
-			  height: 10px;
+				font-size:10px;
+				.legend-key{
+					height: 10px;
+					width:10px;
+					display:inline-block;
+					margin-right:3px;
+				}
+			  .legend-number{
+					display:inline-block;
+					vertical-align: top;
+				}
 			}
 		}
 	}
