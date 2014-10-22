@@ -127,7 +127,7 @@ define([
                 var step = Math.ceil(maxNum/5);
                 var previousStep = 1;
                 for (i = 0; i < colors.length; i++) {
-                    var colorBand = "<div class='key-band'><span class='legend-key' style='background:" + colors[i] + ";'></span><span class='legend-number'>" + numeral(previousStep).format('0,0') + "-" + numeral(step * (i+1)).format('0,0') + "</span></div>";
+                    var colorBand = "<div class='key-band'><span class='legend-key' style='background:" + colors[i] + ";'></span><span class='legend-number'>" + numeral(previousStep).format('0,0') + " - " + numeral(step * (i+1)).format('0,0') + "</span></div>";
                     previousStep = step*(i+1);
                     colorBands += colorBand;
                 }

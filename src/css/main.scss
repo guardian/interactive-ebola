@@ -199,6 +199,17 @@ body{
 					vertical-align: top;
 				}
 			}
+			@media(min-width:480px){
+				color:#333;
+				.key-band{
+					font-size:11px;
+					margin-top:2px;
+					.legend-key{
+						height:12px;
+						width:12px;
+					}
+				}
+			}
 		}
 	}
 	.circlesContainer{
