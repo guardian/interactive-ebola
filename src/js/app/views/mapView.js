@@ -112,7 +112,7 @@ define([
                             if(countryValue === 0){
                                 return defaultMapColor;
                             }else{
-                                return _this.retrieveColor( countryValue, maxNum, heatmapColors )
+                                return _this.retrieveColor( countryValue, maxNum, heatmapColors)
                             }
                         });
                     
@@ -151,7 +151,6 @@ define([
             } else { // deaths
                 arr = ["#ffb900", "#ff9b0b", "#ea6911", "#b41700", "#000"]
             }
-            //"rgb(243,253,255)", "rgb(255,249,245)",
             return arr;
         },
 
@@ -256,7 +255,9 @@ define([
                 var maxCircleValue = _this.countriesByDay["max"+_this.toggle];
                 var circleWidth = (circleValue/_this.countriesByDay["max" + _this.toggle])*initialWidth;
                 var maxCircleWidth = (maxCircleValue/_this.countriesByDay["max" + _this.toggle])*initialWidth;
-                var circleColor = _this.colors[_this.toggle];
+                var maxNum = Math.ceil((_this.countriesByDay["max"+this.toggle]+1)/1000) *1000;
+                console.log(maxNum);
+                var circleColor = _this.retrieveColor(circleValue,maxNum, _this.getHeatmapColors());
 
                 if(circleWidth < 0.5){
                     circleWidth = 2;
@@ -326,11 +327,13 @@ define([
 
         showSliderInput:function(){
             var totalAmounts = 0;
+            var months = ["January", "February","March","April","May","June","July","August","September","October","November","December"];
             _.each(this.countriesByDay,function(i,j){
                 var currentCountryNumber = i[this.allDays[this.date]][this.toggle];
                 totalAmounts+=currentCountryNumber;
             },this);
-            $('#currentSliderInput .currentDay').html(this.allDays[this.date]);
+            var currentDate = this.allDays[this.date].split('/');
+            $('#currentSliderInput .currentDay').html(currentDate[0] + " " + months[parseInt(currentDate[1])-1] + " " + currentDate[2]);
             $('#currentSliderInput .currentDeaths').html('<strong>' + numeral(totalAmounts).format('0,0') + '</strong> total number of ' + this.toggle);  
         },
 
