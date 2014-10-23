@@ -71,7 +71,7 @@ define([
 
         toggleZoom: function() {
             this.isZoomed = !this.isZoomed;
-            this.fillMapData();
+            this.drawMap();
         },
 
         switchToggle: function(e){
@@ -107,7 +107,7 @@ define([
             
         },
 
-        oldfillMapData: function(){
+        fillMapData: function(){
             var i;
             var currentDay = this.allDays[this.date];
             var dataByDay = _.groupBy(this.countryData,function(i){
@@ -476,7 +476,8 @@ define([
             return classText;
         },
 
-        fillMapData: function() {
+        drawMap: function() {
+console.log('drawing map');
             var dimensions = this.getDimensions();
             var subunits = topojson.feature(
                 this.mapJSON, this.mapJSON.objects.countries);
@@ -545,7 +546,7 @@ define([
                     return 'translate(' + projection(loc) + ')';
                 });
 
-            this.oldfillMapData();
+            this.fillMapData();
         },
 
         render: function() {
@@ -554,6 +555,7 @@ define([
             if (data && data.length > 0) {
                 this.$el.html(this.template());
                 this.updateData();
+                this.drawMap();
             } else {
                 return this;
             }
