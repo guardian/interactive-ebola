@@ -36,7 +36,7 @@ define([
         toggle: "cases",
 
         colors:{
-            "deaths": "#E3672A",
+            "deaths": "#ffb900",
             "cases": "#52c6d8"
         },
 
@@ -97,7 +97,6 @@ define([
             var maxNum = this.countriesByDay["max"+this.toggle]+1;
 
             maxNum = (Math.ceil(maxNum / 1000)) * 1000;
-            //var roundMaxNum = (Math.floor(maxNum / 1000)) * 1000;
             var heatmapColors = this.getHeatmapColors();
 
             var countryClass, numCases;
@@ -254,7 +253,6 @@ define([
                 var circleWidth = (circleValue/_this.countriesByDay["max" + _this.toggle])*initialWidth;
                 var maxCircleWidth = (maxCircleValue/_this.countriesByDay["max" + _this.toggle])*initialWidth;
                 var maxNum = Math.ceil((_this.countriesByDay["max"+this.toggle]+1)/1000) *1000;
-                console.log(maxNum);
                 var circleColor = _this.retrieveColor(circleValue,maxNum, _this.getHeatmapColors());
 
                 if(circleWidth < 0.5){
