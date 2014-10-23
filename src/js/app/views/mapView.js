@@ -68,18 +68,18 @@ define([
             // Map zoom
             this.isZoomed = false;
         },
-
         toggleZoom: function(e) {
             $('#map-toggle button').removeClass('active');
+            
             var toggleValue = $(e.currentTarget);   
             toggleValue.addClass('active');
 
             if(toggleValue.data('name') === "africa" && !this.isZoomed){
                 this.isZoomed = true;
-                this.fillMapData();
+                this.drawMap();
             }else if(toggleValue.data('name') === "world" && this.isZoomed){
                 this.isZoomed = false;
-                this.fillMapData();
+                this.drawMap();
             }
             
         },
@@ -117,7 +117,7 @@ define([
             
         },
 
-        oldfillMapData: function(){
+        fillMapData: function(){
             var i;
             var currentDay = this.allDays[this.date];
             var dataByDay = _.groupBy(this.countryData,function(i){
@@ -484,7 +484,8 @@ define([
             return classText;
         },
 
-        fillMapData: function() {
+        drawMap: function() {
+console.log('drawing map');
             var dimensions = this.getDimensions();
             var subunits = topojson.feature(
                 this.mapJSON, this.mapJSON.objects.countries);
@@ -553,7 +554,7 @@ define([
                     return 'translate(' + projection(loc) + ')';
                 });
 
-            this.oldfillMapData();
+            this.fillMapData();
         },
 
         render: function() {
@@ -562,6 +563,7 @@ define([
             if (data && data.length > 0) {
                 this.$el.html(this.template());
                 this.updateData();
+                this.drawMap();
             } else {
                 return this;
             }
