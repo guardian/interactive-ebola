@@ -38,7 +38,7 @@ define([
             'mouseleave .circlesContainer': 'hideTooltip',
             'click .caseToggle button': 'switchToggle',
             'click .playButton': 'autoPlayData',
-            'click #map-toggle': 'toggleZoom'
+            'click #map-toggle button': 'toggleZoom'
         },
 
         toggle: "cases",
@@ -69,9 +69,19 @@ define([
             this.isZoomed = false;
         },
 
-        toggleZoom: function() {
-            this.isZoomed = !this.isZoomed;
-            this.fillMapData();
+        toggleZoom: function(e) {
+            $('#map-toggle button').removeClass('active');
+            var toggleValue = $(e.currentTarget);   
+            toggleValue.addClass('active');
+
+            if(toggleValue.data('name') === "africa" && !this.isZoomed){
+                this.isZoomed = true;
+                this.fillMapData();
+            }else if(toggleValue.data('name') === "world" && this.isZoomed){
+                this.isZoomed = false;
+                this.fillMapData();
+            }
+            
         },
 
         switchToggle: function(e){

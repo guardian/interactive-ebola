@@ -111,18 +111,44 @@ body{
         overflow: hidden;
 
         #map-toggle {
-            border: 1px solid #333;
-            display: inline-block;
-            font-family: 'Guardian Text Sans Web', Arial;
-            padding: 2px 7px;
-            font-size: 11px;
-            font-weight: 700;
-            background: #EEE;
             position: absolute;
-            bottom: 2px;
-            right: 2px;
+            top: 5px;
+            right: 5px;
             z-index: 10;
             cursor: pointer;
+            font-size:0;
+            button{
+            	background:#F5F5F5;
+				height:22px;
+				padding:1px 10px 0;
+				outline:none;
+				font-size:12px;
+				font-family:'Guardian Text Sans Web', Arial;
+				line-height:1em;
+				cursor:pointer;
+				display:inline-block;
+				margin:0;
+				&:first-child{
+					border-radius:99999px 0 0 99999px;
+					border-top:1px solid #DCDCDC;
+					border-left:1px solid #DCDCDC;
+					border-bottom:1px solid #DCDCDC;
+					border-right:none;
+				}
+				&:last-child{
+					border-radius:0 99999px 99999px 0;
+					border-top:1px solid #DCDCDC;
+					border-right:1px solid #DCDCDC;
+					border-bottom:1px solid #DCDCDC;
+					border-left:none;
+				}
+				&.active{
+					border:none;
+					cursor:default;
+					color:#fff;
+					background:#333;
+				}
+            }
         }
 		
 		path{
