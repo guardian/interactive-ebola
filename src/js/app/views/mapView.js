@@ -66,7 +66,7 @@ define([
             this.mapJSON = JSON.parse(mapdata);
             
             // Map zoom
-            this.isZoomed = false;
+            this.isZoomed = true;
         },
         toggleZoom: function(e) {
             $('#map-toggle button').removeClass('active');
@@ -158,7 +158,7 @@ define([
                 var step = Math.ceil(maxNum/5);
                 var previousStep = 1;
                 for (i = 0; i < colors.length; i++) {
-                    var colorBand = "<div class='key-band'><span class='legend-key' style='background:" + colors[i] + ";'></span><span class='legend-number'>" + numeral(previousStep).format('0,0') + " - " + numeral(step * (i+1)).format('0,0') + "</span></div>";
+                    var colorBand = "<div class='key-band'><span class='legend-key' style='background:" + colors[i] + ";'></span><span class='legend-number'>" + numeral(previousStep).format('0,0') + " - " + numeral((step * (i+1)) - 1).format('0,0') + "</span></div>";
                     previousStep = step*(i+1);
                     colorBands += colorBand;
                 }
@@ -361,7 +361,7 @@ define([
                 totalAmounts+=currentCountryNumber;
             },this);
             var currentDate = this.allDays[this.date].split('/');
-            $('#currentSliderInput .currentDay').html(currentDate[0] + " " + months[parseInt(currentDate[1])-1] + " " + currentDate[2]);
+            $('#currentSliderInput .currentDay').html(parseInt(currentDate[0]) + " " + months[parseInt(currentDate[1])-1] + " " + currentDate[2]);
             $('#currentSliderInput .currentDeaths').html('<strong>' + numeral(totalAmounts).format('0,0') + '</strong> total number of ' + this.toggle);  
         },
 
