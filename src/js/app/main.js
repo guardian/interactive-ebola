@@ -44,7 +44,7 @@ define([
         EbolaData.fetch();
 
         // Enable iframe resizing on the GU site
-        iframeMessenger.enableAutoResize();
+        // iframeMessenger.enableAutoResize();
     }
 
     return {

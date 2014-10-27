@@ -7,6 +7,7 @@ define([
     'd3',
     'topojson',
     'data/ebolaData',
+    'iframeMessenger',
     'text!templates/mapTemplate.html',
     'text!templates/circleTemplate.html',
     'text!data/world-110m.json',
@@ -20,6 +21,7 @@ define([
     d3,
     topojson,
     EbolaData,
+    iframeMessenger,
     templateHTML,
     circleTemplateHTML,
     mapdata
@@ -574,7 +576,7 @@ console.log('drawing map');
             });
 
             this.currentData = dataByDay[currentDay];
-
+            iframeMessenger.resize();
             return this;
         }
     });
