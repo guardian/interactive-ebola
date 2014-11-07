@@ -179,7 +179,7 @@ define([
             var arr = [];
             if (_this.toggle == "cases") {
                 arr = ["#69d1ca", "#4dc6dd", "#1387ba", "#005689", "#000"];
-            } else { // deaths
+            } else {
                 arr = ["#ffb900", "#ff9b0b", "#ea6911", "#b41700", "#000"]
             }
             return arr;
